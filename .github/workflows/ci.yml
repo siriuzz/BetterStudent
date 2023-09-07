@@ -27,8 +27,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm install -g yarn
-          yarn install
+          npm install
 
       - name: Check code formatting
         run: |
