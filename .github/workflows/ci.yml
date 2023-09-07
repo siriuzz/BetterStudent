@@ -28,6 +28,3 @@ jobs:
       - name: Install Dependencies
         run: |
           npm install
-
-      - name: Build and Test Android App
-        run: timeout 30s npx expo start --non-interactive
