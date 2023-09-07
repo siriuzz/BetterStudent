@@ -9,13 +9,21 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.14.8",
     "expo": "~49.0.8",
     "expo-status-bar": "~1.6.0",
+    "firebase": "^10.3.1",
     "react": "18.2.0",
     "react-native": "0.72.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
   },
+  "peerDependencies": {
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0"
+  },  
   "private": true
 }
