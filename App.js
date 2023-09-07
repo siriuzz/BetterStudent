@@ -1,16 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, processColor } from 'react-native';
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 
+require('dotenv').config();
+
 const firebaseConfig = {
-  apiKey: "AIzaSyB7n-_rxgpAp_r5t87blrMLnX8R1tfi9i8",
-  authDomain: "betterstudent-2d8de.firebaseapp.com",
-  projectId: "betterstudent-2d8de",
-  storageBucket: "betterstudent-2d8de.appspot.com",
-  messagingSenderId: "102026675691",
-  appId: "1:102026675691:web:08e6fd642dd9a93292c5ae",
-  measurementId: "G-9Y0HC7WVP6"
+  apiKey: process.env.API_KEY,
+  authDomain: process.env.AUTH_DOMAIN,
+  projectId: process.env.PROJECT_ID,
+  storageBucket: process.env.STORAGE_BUCKET,
+  messagingSenderId: process.env.MESSAGING_SENDER_ID,
+  appId: process.env.APP_ID,
+  measurementId: process.env.MEASUREMENT_ID
 };
 
 const app = initializeApp(firebaseConfig);
