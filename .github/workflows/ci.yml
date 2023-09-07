@@ -25,12 +25,9 @@ jobs:
         with:
           node-version: "14" # Adjust the Node.js version to your project's requirements
 
-      - name: Install EAS CLI
-        run: npm install -g eas-cli
-
       - name: Install Dependencies
         run: |
           npm install
 
       - name: Build and Test Android App
-        run: npx react-native run-android 
+        run: expo start"
