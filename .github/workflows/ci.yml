@@ -25,15 +25,12 @@ jobs:
         with:
           node-version: "14" # Adjust the Node.js version to your project's requirements
 
-      - name: Install dependencies
+      - name: Install EAS CLI
+        run: npm install -g eas-cli
+
+      - name: Install Dependencies
         run: |
           npm install
 
-      - name: Check code formatting
-        run: |
-          npm run eslint  # Replace with your code formatting check command (e.g., eslint, prettier)
-
-      - name: Build Android
-        run: |
-          npx react-native bundle --platform android --dev false --entry-file App.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
-          # yarn test   # Replace with your test command
+      - name: Build Expo Project
+        run: eas build -p android
