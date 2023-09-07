@@ -33,4 +33,4 @@ jobs:
           npm install
 
       - name: Build and Test Android App
-        run: npx react-native run-android  # Run the Android build and test command
+        run: npx react-native run-android 
