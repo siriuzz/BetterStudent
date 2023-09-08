@@ -24,8 +24,8 @@
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@react-native/metro-config": "^0.72.11",
-    "dotenv": "^16.3.1",
-    "eslint": "^8.48.0"
+    "eslint": "^8.48.0",
+    "react-native-dotenv": "^3.4.9"
   },
   "peerDependencies": {
     "react": "^17.0.0 || ^18.0.0",
