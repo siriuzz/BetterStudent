@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, processColor, StatusBar } from 'react-native';
 import { initializeApp } from "firebase/app";
+import { getFirestore,collection, addDoc } from "firebase/firestore";
 import { getAnalytics } from "firebase/analytics";
 import { API_KEY, AUTH_DOMAIN, PROJECT_ID, STORAGE_BUCKET, MESSAGING_SENDER_ID, APP_ID, MEASUREMENT_ID } from "@env";
 
@@ -15,8 +16,18 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 // const analytics = getAnalytics(app);
-
+try {
+  const docRef = await addDoc(collection(db, "users"), {
+    first: "Ada",
+    last: "Lovelace",
+    born: 1815
+  });
+  console.log("Document written with ID: ", docRef.id);
+} catch (e) {
+  console.error("Error adding document: ", e);
+}
 
 export default function App() {
   return (
