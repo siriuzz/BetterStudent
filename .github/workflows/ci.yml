@@ -32,7 +32,7 @@ jobs:
       - name: Check Code Format
         run: |
           npm run lint
-      
+
       - name: Test Firestore
         env:
           API_KEY: ${{ secrets.API_KEY }}
