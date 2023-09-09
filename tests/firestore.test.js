@@ -1,6 +1,5 @@
 const { initializeApp } = require('firebase/app');
 const { getFirestore, collection, addDoc, doc, getDoc, deleteDoc, setDoc } = require('firebase/firestore');
-require('dotenv').config();
 
 const firebaseConfig = {
     apiKey: process.env.API_KEY,
@@ -26,7 +25,7 @@ const testId = "Prueba";
 describe('Firestore Tests', () => {
     beforeAll(async () => {
         // agregar documento de prueba
-        await setDoc(doc(db,testCollection,testId),testDocument);
+        await setDoc(doc(db, testCollection, testId), testDocument);
 
     });
 
