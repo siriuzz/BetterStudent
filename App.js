@@ -1,7 +1,15 @@
-import { StyleSheet, Text, View, processColor, StatusBar } from 'react-native';
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { getAnalytics } from "firebase/analytics";
+import SignUp from "./src/Screens/Sign Up/SignUp"
+import { NavigationContainer } from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import Login from './src/Screens/Login/Login';
+import Home from './src/Screens/Home/Home';
+import Loader from './src/components/Loader';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const firebaseConfig = {
   apiKey: process.env.API_KEY,
@@ -10,27 +18,61 @@ const firebaseConfig = {
   storageBucket: process.env.STORAGE_BUCKET,
   messagingSenderId: process.env.MESSAGING_SENDER_ID,
   appId: process.env.APP_ID,
-  measurementId: process.env.MEASUREMENT_ID
+  measurementId: process.env.MEASUREMENT_ID,
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 // const analytics = getAnalytics(app);
 
+const Stack = createNativeStackNavigator();
+
 export default function App() {
+  const [initialRouteName, setInitialRouteName] = React.useState('');
+    React.useEffect(() => {
+    setTimeout(authUser, 1000);
+    }, []);
+  const authUser = async() => {
+    try{
+      let userData = await AsyncStorage.getItem('user');
+      if(userData) {
+        userData = JSON.parse(userData);
+        if(userData?.loggedIn) {
+          setInitialRouteName('Home');
+        }else {
+          setInitialRouteName('Login');
+        }
+      }else {
+        setInitialRouteName('SignUp');
+      }
+    }catch(error) {
+      setInitialRouteName('SignUp');
+    }
+  };
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      {initialRouteName == "" ? (
+        <Loader visible={true}/>
+      ) : (
+        <>
+          <Stack.Navigator 
+          initialRouteName={initialRouteName}
+          screenOptions={{headerShown:false}}>
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="SignUp" component={SignUp} />
+          <Stack.Screen name="Home" component={Home} />
+          </Stack.Navigator>
+        </>
+      )}
+    </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
