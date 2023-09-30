@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Settings, StyleSheet, Text, View } from "react-native";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { getAnalytics } from "firebase/analytics";
@@ -10,6 +10,20 @@ import Login from './src/Screens/Login/Login';
 import Home from './src/Screens/Home/Home';
 import Loader from './src/components/Loader';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { PaperProvider } from 'react-native-paper';
+//import MainContainer from "./src/Screens/MainContainer/MainContainer";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"; 
+import ConfigScreen from "./src/Screens/Configuration/Configuration";
+//dependencia npm install @react-navigation/bottom-tabs
+import FriendScreen from "./src/Screens/Friends/Friends";
+import SearchScreen from "./src/Screens/Searcher/Searcher";
+import SubjectScreen from "./src/Screens/Subjects/Subjects";
+import Icon from 'react-native-vector-icons/Ionicons';
+import { FontAwesome5 } from '@expo/vector-icons'; 
+
+
+
+
 
 const firebaseConfig = {
   apiKey: process.env.API_KEY,
@@ -25,7 +39,59 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 // const analytics = getAnalytics(app);
 
+const homeName = 'Home'
+const ConfigurationName = 'Config'
+const FriendName = 'Friend'
+const SearchName = 'Search'
+const SubjectName = 'Subjects'
+
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
+function TabNavigator(){
+  return(
+        <Tab.Navigator initialRouteName={homeName}
+        screenOptions={({route}) => ({
+            tabBarIcon:({focused, color, size}) => {
+                let iconName;
+                let rn = route.name;
+
+                if(rn === homeName){
+                    iconName = focused ? 'home': 'home-outline'
+                } else if (rn === ConfigurationName){
+                    iconName = focused ? 'settings': 'settings-outline'
+                } else if(rn===FriendName){
+                  iconName = focused ? 'person-add': 'person-add-outline'
+                }else if(rn===SearchName){
+                  iconName = focused ? 'search': 'search-outline'
+                }else if(rn===SubjectName){
+                  iconName = focused ? 'albums': 'albums-outline'
+                }
+
+                return <Icon name={iconName} size={size} color={color}/>
+            }
+            })}>
+            <Tab.Screen name={homeName} component = {Home}/>
+            <Tab.Screen name ={ConfigurationName} component={ConfigScreen}/>
+            <Tab.Screen name={FriendName} component={FriendScreen}/>
+            <Tab.Screen name={SearchName} component={SearchScreen}/>
+            <Tab.Screen name={SubjectName} component={SubjectScreen}/>
+        </Tab.Navigator> 
+)
+  }
+
+function StackNavigator(){
+return(
+  <Stack.Navigator>
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="SignUp" component={SignUp} />
+        <Stack.Screen name="Home" component={TabNavigator} />
+    </Stack.Navigator>
+
+)
+}
+
+
 
 export default function App() {
   const [initialRouteName, setInitialRouteName] = React.useState('');
@@ -49,23 +115,34 @@ export default function App() {
       setInitialRouteName('SignUp');
     }
   };
+  
   return (
+
+  
     <NavigationContainer>
+      
+      <StackNavigator>
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="SignUp" component={SignUp} />
+        <Stack.Screen name="Home" component={TabNavigator} options={{headerShown:false}}/>
+      </StackNavigator>
+      
+      
+
       {initialRouteName == "" ? (
         <Loader visible={true}/>
       ) : (
         <>
-          <Stack.Navigator 
-          initialRouteName={initialRouteName}
-          screenOptions={{headerShown:false}}>
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="SignUp" component={SignUp} />
-          <Stack.Screen name="Home" component={Home} />
-          </Stack.Navigator>
+        {/* initialRouteName={initialRouteName} */}
+        {/* screenOptions={{headerShown:false}} */}
+          
         </>
+        
       )}
+      
     </NavigationContainer>
   );
+  
 }
 
 const styles = StyleSheet.create({
