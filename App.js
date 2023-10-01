@@ -49,44 +49,39 @@ const SubjectName = 'Asignaturas'
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-function TabNavigator(){
-  return(
-        <Tab.Navigator initialRouteName={homeName}
-        screenOptions={({route}) => ({
-            tabBarIcon:({focused, color, size}) => {
-                let iconName;
-                let rn = route.name;
+function TabNavigator() {
+  const getTabBarIcon = (route, focused, size) => {
+    const tabIcons = {
+      [homeName]: focused ? 'home' : 'home-outline',
+      [ConfigurationName]: focused ? 'settings' : 'settings-outline',
+      [FriendName]: focused ? 'person-add' : 'person-add-outline',
+      [SearchName]: focused ? 'search' : 'search-outline',
+      [SubjectName]: focused ? 'book' : 'book-outline',
+    };
 
-                if(rn === homeName){
-                    iconName = focused ? 'home': 'home-outline'
-                    color= focused ? '#C08708' : '#002793'
-                } else if (rn === ConfigurationName){
-                    iconName = focused ? 'settings': 'settings-outline'
-                    color= focused ? '#C08708' : '#002793'
-                } else if(rn===FriendName){
-                  iconName = focused ? 'person-add': 'person-add-outline'
-                  color= focused ? '#C08708' : '#002793'
-                }else if(rn===SearchName){
-                  iconName = focused ? 'search': 'search-outline'
-                  color= focused ? '#C08708' : '#002793'
-                }else if(rn===SubjectName){
-                  iconName = focused ? 'book': 'book-outline'
-                  color= focused ? '#C08708' : '#002793'
-                }
+    const iconName = tabIcons[route.name];
+    const color = focused ? '#C08708' : '#002793';
 
-                return <Icon name={iconName} size={size} color={color}/>
-            },
-            tabBarActiveTintColor: '#C08708',
-            tabBarInactiveTintColor: '#002793'
-            })}>
-            <Tab.Screen name={SubjectName} component={SubjectScreen}/>
-            <Tab.Screen name={FriendName} component={FriendScreen}/>
-            <Tab.Screen name={homeName} component = {Home}/>
-            <Tab.Screen name={SearchName} component={SearchScreen}/>
-            <Tab.Screen name ={ConfigurationName} component={ConfigScreen}/>
-        </Tab.Navigator> 
-)
-  }
+    return <Icon name={iconName} size={size} color={color} />;
+  };
+
+  return (
+    <Tab.Navigator
+      initialRouteName={homeName}
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, size }) => getTabBarIcon(route, focused, size),
+        tabBarActiveTintColor: '#C08708',
+        tabBarInactiveTintColor: '#002793',
+      })}
+    >
+      <Tab.Screen name={SubjectName} component={SubjectScreen} />
+      <Tab.Screen name={FriendName} component={FriendScreen} />
+      <Tab.Screen name={homeName} component={Home} />
+      <Tab.Screen name={SearchName} component={SearchScreen} />
+      <Tab.Screen name={ConfigurationName} component={ConfigScreen} />
+    </Tab.Navigator>
+  );
+}
 
 function StackNavigator(){
 return(
