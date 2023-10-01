@@ -32,16 +32,16 @@ const Home = ({navigation}) => {
     <View 
         style={{
             flex:1,
-            justifyContent:'center',
             alignItems:'center',
             paddingHorizontal: 40,
             backgroundColor: COLORS.white
-            }}>
-            <Text style={{fontSize: 20, fontWeight: 'bold'}}>Bienvenido {userDetails.fullName}</Text>
-            <Button title="Logout" onPress={logout}/>
-            {/*Llamar componente de foto de perfil (editable)
-            <Avatar />
-            */}
+        }}>
+        {/*Llamar componente de foto de perfil (editable)
+        
+        */}
+        <Avatar />
+        <Text style={{fontSize: 20, fontWeight: 'bold'}}>Bienvenido {userDetails.fullName}</Text>
+        <Button title="Logout" onPress={logout}/>
     </View>
     );
 };
