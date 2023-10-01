@@ -1,7 +1,10 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Image } from "react-native";
 import Button from "../../components/Button";
+import Avatar from "../../components/Avatar";
+import COLORS from "../../conts/colors";
+
 
 const Home = ({navigation}) => {
 
@@ -27,14 +30,18 @@ const Home = ({navigation}) => {
 
     return (
     <View 
-    style={{
-        flex:1,
-        justifyContent:'center',
-        alignItems:'center',
-        paddingHorizontal: 40
-        }}>
-        <Text style={{fontSize: 20, fontWeight: 'bold'}}>Welcome {userDetails.fullName}</Text>
-        <Button title="Logout" onPress={logout}/>
+        style={{
+            flex:1,
+            justifyContent:'center',
+            alignItems:'center',
+            paddingHorizontal: 40,
+            backgroundColor: COLORS.white
+            }}>
+            <Text style={{fontSize: 20, fontWeight: 'bold'}}>Bienvenido {userDetails.fullName}</Text>
+            <Button title="Logout" onPress={logout}/>
+            {/*Llamar componente de foto de perfil (editable)
+            <Avatar />
+            */}
     </View>
     );
 };

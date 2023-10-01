@@ -10,6 +10,7 @@ import Login from './src/Screens/Login/Login';
 import Home from './src/Screens/Home/Home';
 import Loader from './src/components/Loader';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Subjects from "./src/Screens/Subjects/Subjects";
 
 const firebaseConfig = {
   apiKey: process.env.API_KEY,
@@ -61,6 +62,8 @@ export default function App() {
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="SignUp" component={SignUp} />
           <Stack.Screen name="Home" component={Home} />
+          {/*<Stack.Screen name="Subjects" component={Subjects} />*/}
+
           </Stack.Navigator>
         </>
       )}
