@@ -19,6 +19,7 @@ import FriendScreen from "./src/Screens/Friends/Friends";
 import SearchScreen from "./src/Screens/Searcher/Searcher";
 import SubjectScreen from "./src/Screens/Subjects/Subjects";
 import Icon from 'react-native-vector-icons/Ionicons';
+import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons'; 
 
 
@@ -39,11 +40,11 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 // const analytics = getAnalytics(app);
 
-const homeName = 'Home'
-const ConfigurationName = 'Config'
-const FriendName = 'Friend'
-const SearchName = 'Search'
-const SubjectName = 'Subjects'
+const homeName = "Home"
+const ConfigurationName = 'Configuracion'
+const FriendName = 'Amigos'
+const SearchName = 'Buscador'
+const SubjectName = 'Asignaturas'
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -58,24 +59,31 @@ function TabNavigator(){
 
                 if(rn === homeName){
                     iconName = focused ? 'home': 'home-outline'
+                    color= focused ? '#C08708' : '#002793'
                 } else if (rn === ConfigurationName){
                     iconName = focused ? 'settings': 'settings-outline'
+                    color= focused ? '#C08708' : '#002793'
                 } else if(rn===FriendName){
                   iconName = focused ? 'person-add': 'person-add-outline'
+                  color= focused ? '#C08708' : '#002793'
                 }else if(rn===SearchName){
                   iconName = focused ? 'search': 'search-outline'
+                  color= focused ? '#C08708' : '#002793'
                 }else if(rn===SubjectName){
-                  iconName = focused ? 'albums': 'albums-outline'
+                  iconName = focused ? 'book': 'book-outline'
+                  color= focused ? '#C08708' : '#002793'
                 }
 
                 return <Icon name={iconName} size={size} color={color}/>
-            }
+            },
+            tabBarActiveTintColor: '#C08708',
+            tabBarInactiveTintColor: '#002793'
             })}>
-            <Tab.Screen name={homeName} component = {Home}/>
-            <Tab.Screen name ={ConfigurationName} component={ConfigScreen}/>
-            <Tab.Screen name={FriendName} component={FriendScreen}/>
-            <Tab.Screen name={SearchName} component={SearchScreen}/>
             <Tab.Screen name={SubjectName} component={SubjectScreen}/>
+            <Tab.Screen name={FriendName} component={FriendScreen}/>
+            <Tab.Screen name={homeName} component = {Home}/>
+            <Tab.Screen name={SearchName} component={SearchScreen}/>
+            <Tab.Screen name ={ConfigurationName} component={ConfigScreen}/>
         </Tab.Navigator> 
 )
   }
