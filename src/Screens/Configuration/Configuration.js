@@ -1,14 +1,49 @@
-import React from 'react'
-import { View, Text } from 'react-native' 
+import { settings } from "firebase/analytics";
+import React from "react";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  ScrollView,
+  Alert,
+  Keyboard,
+  Image,
+  StyleSheet
+} from "react-native";
+import Button from "../../components/Button";
+import COLORS from "../../conts/colors";
+import OptionSection from "../../components/OptionSection";
 
-const Configuration = () => {
-    return(
+export default function ConfigScreen({navigation}){
+  return(
+    <SafeAreaView 
+      style={{
+        flex:1,
+        backgroundColor: COLORS.white,
+        paddingTop: '17%',
+      }}>
+      <ScrollView
+        contentContainerStyle={{
+        alignItems: 'flex-start',
+        paddingHorizontal: 20,
+        }}
+      >
+        <Text style={styles.title}>Configuración</Text>
+
         <View>
-            <Text>
-                Bienvenido a Configuración
-            </Text>
+        <OptionSection />
         </View>
-    )
+
+        <Text>Ir a home</Text>
+        <Button onPress={() => {navigation.navigate('Home')}}>Home</Button>
+      </ScrollView>
+    </SafeAreaView>
+  )
 }
 
-export default Configuration;
+const styles = StyleSheet.create ({
+  title: {
+    fontSize: 30, 
+    fontWeight: 'bold',
+  },
+})

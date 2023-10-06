@@ -1,15 +1,19 @@
-import { useNavigation, useNavigationBuilder } from '@react-navigation/native';
-import React from 'react'
-import { View, Text, TouchableNativeFeedback, Touchable } from "react-native";
- 
-const Subjects = () => {
-    return(
-        <View>
-            <Text>
-                Bienvenido a Asignaturas
-            </Text>
-        </View>
-    )
-}
+import { settings } from "firebase/analytics";
+import React from "react";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  ScrollView,
+  Alert,
+  Keyboard,
+  Image,
+} from "react-native";
 
-export default Subjects;
+export default function SubjectScreen({navigation}){
+  return(
+    <View>
+      <Text>Subject screen</Text>
+    </View>
+  )
+}

@@ -1,14 +1,19 @@
-import React from 'react'
-import { View, Text } from 'react-native' 
+import { settings } from "firebase/analytics";
+import React from "react";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  ScrollView,
+  Alert,
+  Keyboard,
+  Image,
+} from "react-native";
 
-const Searcher = () => {
-    return(
-        <View>
-            <Text>
-                Bienvenido a Buscador
-            </Text>
-        </View>
-    )
+export default function SearchScreen({navigation}){
+  return(
+    <View>
+      <Text>Search Screen</Text>
+    </View>
+  )
 }
-
-export default Searcher;
