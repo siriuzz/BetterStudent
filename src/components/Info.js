@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
         fontStyle: 'italic',
         fontSize: 14,
     }
-
 })
 
 export default Info;

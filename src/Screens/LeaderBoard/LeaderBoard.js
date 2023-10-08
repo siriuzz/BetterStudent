@@ -10,12 +10,14 @@ import {
   Image,
 } from "react-native";
 import Button from "../../components/Button";
-
-
+import TopButtons from "../../components/TobButtons"
 
 export default function LeaderBoard({navigation}){
   return(
     <View style={{marginTop:'10%', paddingHorizontal: 20,}}>
+      <TopButtons 
+        enableGoBack={true}
+      />
       <Text>Leader board screen</Text>
       <Text>Ir a home</Text>
       <Button onPress={() => {navigation.navigate('Home')}}>Home</Button>

@@ -13,6 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Subjects from "./src/Screens/Subjects/Subjects";
 import LeaderBoard from "./src/Screens/LeaderBoard/LeaderBoard";
 import Configuration from "./src/Screens/Configuration/Configuration";
+import ChangePasswordLoggedIn from "./src/Screens/ChangePasswordLoggedIn/ChangePasswordLoggedIn";
 
 const firebaseConfig = {
   apiKey: process.env.API_KEY,
@@ -59,15 +60,14 @@ export default function App() {
       ) : (
         <>
           <Stack.Navigator 
-          initialRouteName={initialRouteName}
-          screenOptions={{headerShown:false}}>
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="SignUp" component={SignUp} />
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="LeaderBoard" component={LeaderBoard} />
-          <Stack.Screen name="Configuration" component={Configuration} />
-
-
+            initialRouteName={initialRouteName}
+            screenOptions={{headerShown:false}}>
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="SignUp" component={SignUp} />
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="LeaderBoard" component={LeaderBoard} />
+            <Stack.Screen name="Configuration" component={Configuration} />
+            <Stack.Screen name="ChangePasswordLoggedIn" component={ChangePasswordLoggedIn} />
           </Stack.Navigator>
         </>
       )}

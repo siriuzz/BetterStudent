@@ -18,9 +18,7 @@ import Input from "../../components/Input";
 import StarRating from "../../components/StarRating";
 import TopButtons from "../../components/TobButtons"
 
-
 const Home = ({navigation}) => {
-
     const [userDetails, setUserDetails] = React.useState({});
     React.useEffect(() => {
         getUserDetails();
@@ -42,7 +40,7 @@ const Home = ({navigation}) => {
     };
 
     return (
-    <SafeAreaView 
+    <SafeAreaView
         style={{
             flex:1,
             alignItems:'center',
@@ -55,6 +53,7 @@ const Home = ({navigation}) => {
         color={COLORS.yellow}/>
         <TopButtons 
         enableGoBack={false}
+        enableTopRightIcons={true}
         />
 
         <Text style={{fontSize: 22, fontWeight: 'bold'}}>{userDetails.fullName}</Text>

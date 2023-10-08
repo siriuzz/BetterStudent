@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
-import { Text, Image, TouchableOpacity, View, StyleSheet } from 'react-native';
+import { Image, TouchableOpacity, View, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import iconBack from '../../assets/icon-back.png';
 import iconMenuVertical from '../../assets/icon-menu-vertical.png';
 import iconBarChart from '../../assets/icon-bar-chart.png';
-import LeaderBoard from '../Screens/LeaderBoard/LeaderBoard';
 import PopUpMenu from './PopUpMenu';
 
 const TopButtons = (props) => {
     const navigation = useNavigation(); // Usa useNavigation para acceder a la navegación
+
+    const goBack = () => {
+        navigation.goBack(); // Retrocede a la pantalla anterior
+      };
 
     const [isMenuVisible, setMenuVisible] = useState(false);
 
@@ -17,12 +20,10 @@ const TopButtons = (props) => {
     };
 
     return(
-
-
         <View style={styles.buttons}>
             <View style={{alignItems: 'flex-start'}}>
                 { props.enableGoBack === true ? (
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={goBack}>
                         <Image
                         source={iconBack}
                         />
@@ -33,18 +34,24 @@ const TopButtons = (props) => {
                 
             </View>
             <View  style={{ flexDirection: 'row' ,alignItems: 'flex-end'}}>
-                <TouchableOpacity onPress={() => navigation.navigate('LeaderBoard')}>
-                    <Image
-                    source={iconBarChart}
-                    />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={toggleMenu}>
-                    <Image
-                        style={{marginLeft: 20}}
-                        source={iconMenuVertical}
-                        /> 
-                </TouchableOpacity>
-                
+                { props.enableTopRightIcons === true ? (
+                    <>
+                        <TouchableOpacity onPress={() => navigation.navigate('LeaderBoard')}>
+                            <Image
+                            source={iconBarChart}
+                            />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={toggleMenu}>
+                            <Image
+                                style={{marginLeft: 20}}
+                                source={iconMenuVertical}
+                                /> 
+                        </TouchableOpacity>
+                    </>
+                ):(
+                    null
+                )}
+                    
                 
             </View>
             <PopUpMenu isVisible={isMenuVisible} onClose={toggleMenu} />
