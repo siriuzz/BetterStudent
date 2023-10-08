@@ -5,24 +5,107 @@
     "description": "Description",
     "version": "1.0.0"
   },
+  "servers": [
+    {
+      "url": "http://localhost:3001"
+    }
+  ],
   "paths": {
-    "/": {
+    "/api/Students": {
       "get": {
+        "tags": [
+          "Students"
+        ],
         "description": "",
         "responses": {
           "200": {
             "description": "OK"
           }
         }
-      }
-    },
-    "/Students": {
-      "get": {
+      },
+      "post": {
+        "tags": [
+          "Students"
+        ],
         "description": "",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Student"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Student"
+                }
+              }
+            }
           }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Student"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Student"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Student": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Elian"
+          },
+          "email": {
+            "type": "string",
+            "example": "elian1234@gmail.com"
+          },
+          "info": {
+            "type": "string",
+            "example": "Coloque aqui su informacion académica"
+          },
+          "phone_number": {
+            "type": "string",
+            "example": "1234567890"
+          },
+          "password": {
+            "type": "string",
+            "example": "1234567890"
+          },
+          "rating": {
+            "type": "number",
+            "example": 0
+          },
+          "career_id": {
+            "type": "string",
+            "example": "1"
+          }
+        },
+        "required": [
+          "name",
+          "email",
+          "info",
+          "phone_number",
+          "password",
+          "career_id"
+        ],
+        "xml": {
+          "name": "Student"
         }
       }
     }
