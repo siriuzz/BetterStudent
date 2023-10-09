@@ -1,4 +1,5 @@
 const { initializeApp } = require('firebase/app');
+const { getAuth } = require('firebase/auth');
 const { getFirestore, collection, addDoc, doc, getDoc, deleteDoc, setDoc, getDocs } = require('firebase/firestore');
 require('dotenv').config();
 
@@ -21,6 +22,7 @@ class Firebase {
 
         this.firebaseApp = initializeApp(this.config);
         this.db = getFirestore(this.firebaseApp);
+        this.auth = getAuth(this.firebaseApp);
     }
 
     static getInstance() {
@@ -35,5 +37,6 @@ class Firebase {
 }
 const firebase = Firebase.getInstance();
 const db = firebase.db;
+const auth = firebase.auth;
 
-module.exports = db;
+module.exports = { db, auth };

@@ -1,15 +1,15 @@
 import React from "react";
-import { View, useWindowDimensions, Text, StyleSheet} from "react-native";
+import { View, useWindowDimensions, Text, StyleSheet } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
-import COLORS from "../conts/colors";
+import COLORS from "../constants/colors";
 
-const Loader = ({visible = true}) => {
-    const {height, width} = useWindowDimensions();
+const Loader = ({ visible = true }) => {
+    const { height, width } = useWindowDimensions();
     return (
-        visible && (<View style={[style.container,{height: height + 35, width}]}>
+        visible && (<View style={[style.container, { height: height + 35, width }]}>
             <View style={style.loader}>
                 <ActivityIndicator size="large" color={COLORS.blue} />
-                <Text style={{margin: 10, fontSize: 17}}>Loading...</Text>
+                <Text style={{ margin: 10, fontSize: 17 }}>Loading...</Text>
             </View>
         </View>
         )
@@ -18,7 +18,7 @@ const Loader = ({visible = true}) => {
 
 const style = StyleSheet.create({
     container: {
-        position : 'absolute',
+        position: 'absolute',
         zIndex: 1,
         backgroundColor: 'rgba(0,0,0,0.5)',
         justifyContent: 'center',

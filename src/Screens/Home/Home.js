@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import Button from "../../components/Button";
 import Avatar from "../../components/Avatar";
-import COLORS from "../../conts/colors";
+import COLORS from "../../constants/colors";
 import Info from "../../components/Info";
 import Input from "../../components/Input";
 import StarRating from "../../components/StarRating";
@@ -26,6 +26,7 @@ const Home = ({ navigation }) => {
 
     const getUserDetails = async () => {
         const userData = await AsyncStorage.getItem('user');
+        console.log(userData);
         if (userData) {
             setUserDetails(JSON.parse(userData));
         }
@@ -59,7 +60,7 @@ const Home = ({ navigation }) => {
             <Text style={{ fontSize: 22, fontWeight: 'bold' }}>{userDetails.fullName}</Text>
             <Text style={{ fontSize: 14, fontWeight: 'regular' }}>{userDetails.email}</Text>
             <StarRating
-                stars={5}
+                stars={userDetails.rating}
             />
             <ScrollView
                 contentContainerStyle={{

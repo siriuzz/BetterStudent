@@ -1,9 +1,10 @@
-const db = require('./firestore');
-const { StudentController, AdminController, ReviewController } = require('./controllers');
+const { db, auth } = require('./firestore');
+const { UserController, StudentController, AdminController, ReviewController } = require('./controllers');
 
 const controllers = {
-    StudentController: new StudentController(db),
-    AdminController: new AdminController(db),
+    UserController: new UserController(db, auth),
+    StudentController: new StudentController(db, auth),
+    AdminController: new AdminController(db, auth),
     ReviewController: new ReviewController(db)
     // Add more controllers as needed
 };

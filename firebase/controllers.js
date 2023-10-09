@@ -1,9 +1,36 @@
 const { collection, addDoc, doc, getDoc, deleteDoc, setDoc, getDocs, query, where } = require('firebase/firestore');
 const models = require('./models');
+const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } = require('firebase/auth');
+
+class UserController {
+    constructor(database, auth) {
+        this.db = database;
+        this.auth = auth;
+    }
+
+    async signInUser(email, password) {
+        try {
+            const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
+            const student = await new StudentController(this.db, this.auth).getStudentByEmail(email);
+            if (student) return student;
+            const admin = await new AdminController(this.db, this.auth).getAdminByEmail(email);
+            if (admin) return admin;
+
+            // return userCredential.user;
+        } catch (error) {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorCode);
+            console.log(errorMessage);
+            return error;
+        }
+    }
+}
 
 class StudentController {
-    constructor(database) {
+    constructor(database, auth) {
         this.db = database;
+        this.auth = auth;
     }
     async getAllStudents() {
         try {
@@ -55,11 +82,25 @@ class StudentController {
     }
 
     async addStudent(student) {
-        const newStudent = new models.Student(student.name, student.email, student.phone_number, student.password, undefined, undefined, student.career_id);
-        console.log(newStudent);
+        // const newStudent = new models.Student(student.name, student.email, student.phone_number, student.password, undefined, undefined, student.career_id);
+        // console.log(newStudent);
         try {
-            const docRef = await addDoc(collection(this.db, 'students'), newStudent.toObject());
-            return docRef;
+            createUserWithEmailAndPassword(this.auth, student.email, student.password).then((userCredential) => {
+                // Signed in
+                const user = userCredential.user;
+                console.log(user);
+                const newStudent = new models.Student(student.name, student.email, student.phone_number, undefined, undefined, student.career_id);
+                // console.log(newStudent);
+                const docRef = addDoc(collection(this.db, 'students'), newStudent.toObject());
+                return docRef;
+                // ...
+            }).catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log(errorCode);
+                console.log(errorMessage);
+                // ..
+            });
         } catch (error) {
             console.error('Error adding document:', error);
             throw error;
@@ -83,10 +124,27 @@ class StudentController {
             throw error;
         }
     }
+
+    // async signInStudent(email, password) {
+    //     console.log(email, password);
+    //     signInWithEmailAndPassword(this.auth, email, password).then((userCredential) => {
+    //         // Signed in
+    //         const user = userCredential.user;
+    //         // console.log(user);
+    //         return user;
+    //         // ...
+    //     }).catch((error) => {
+    //         const errorCode = error.code;
+    //         const errorMessage = error.message;
+    //         console.log(errorCode);
+    //         console.log(errorMessage);
+    //         // ..
+    //     });
+    // };
 }
 
 class AdminController {
-    constructor(database) {
+    constructor(database, auth) {
         this.db = database;
     }
 
@@ -187,4 +245,4 @@ class ReviewController {
     }
 }
 
-module.exports = { StudentController, AdminController, ReviewController };
+module.exports = { UserController, StudentController, AdminController, ReviewController };

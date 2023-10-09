@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, TextInput } from "react-native";
-import COLORS from "../conts/colors";
+import COLORS from "../constants/colors";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
@@ -9,48 +9,48 @@ const Input = ({
     iconName,
     error,
     password,
-    onFocus = () => {},
+    onFocus = () => { },
     ...props
 }) => {
-        const [isFocused, setIsFocused] = React.useState(false);
-        const [hidePassword, setHidePassword] = React.useState(password);
-        return (
-            <View style={{marginBottom: 1}}>
-                <Text style={style.label}>{label}</Text>
-            <View 
-            style={[
-                style.inputContainer,
-                {
-                    borderColor: error
-                    ? COLORS.red
-                    : isFocused
-                    ? COLORS.darkBlue
-                    : COLORS.light
-                },
-            ]}>
-            <Icon
-            name={iconName}
-            style={{fontSize: 23, color: COLORS.darkBlue, marginRight: 12, marginLeft: 12}}
-            />
-            <TextInput
-                secureTextEntry={hidePassword}
-                autoCorrect={false}
-                onFocus={() => {onFocus(); setIsFocused(true);}}
-                onBlur={() => setIsFocused(false)}
-                style={{color: COLORS.darkBlue, flex: 1}}
-                {...props}
-            />
-            {password && (
-                <Icon 
-                onPress={() => setHidePassword(!hidePassword)}
-                style={{fontSize:22, color:COLORS.darkBlue}}
-                name={hidePassword ? "eye-outline" : "eye-off-outline"}
-                margin={12}
+    const [isFocused, setIsFocused] = React.useState(false);
+    const [hidePassword, setHidePassword] = React.useState(password);
+    return (
+        <View style={{ marginBottom: 1 }}>
+            <Text style={style.label}>{label}</Text>
+            <View
+                style={[
+                    style.inputContainer,
+                    {
+                        borderColor: error
+                            ? COLORS.red
+                            : isFocused
+                                ? COLORS.darkBlue
+                                : COLORS.light
+                    },
+                ]}>
+                <Icon
+                    name={iconName}
+                    style={{ fontSize: 23, color: COLORS.darkBlue, marginRight: 12, marginLeft: 12 }}
                 />
-            )}
-        </View>
-        <Text style={{color: COLORS.red, fontSize: 12,}}>{error}</Text>
-    </View>);
+                <TextInput
+                    secureTextEntry={hidePassword}
+                    autoCorrect={false}
+                    onFocus={() => { onFocus(); setIsFocused(true); }}
+                    onBlur={() => setIsFocused(false)}
+                    style={{ color: COLORS.darkBlue, flex: 1 }}
+                    {...props}
+                />
+                {password && (
+                    <Icon
+                        onPress={() => setHidePassword(!hidePassword)}
+                        style={{ fontSize: 22, color: COLORS.darkBlue }}
+                        name={hidePassword ? "eye-outline" : "eye-off-outline"}
+                        margin={12}
+                    />
+                )}
+            </View>
+            <Text style={{ color: COLORS.red, fontSize: 12, }}>{error}</Text>
+        </View>);
 };
 
 const style = StyleSheet.create({
