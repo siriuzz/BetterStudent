@@ -16,6 +16,8 @@
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.14.8",
     "@react-native-async-storage/async-storage": "1.18.2",
+    "@react-navigation/bottom-tabs": "^6.5.9",
+    "@react-navigation/material-bottom-tabs": "^6.2.17",
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/native-stack": "^6.9.13",
     "bcrypt": "^5.1.1",
@@ -24,10 +26,11 @@
     "eslint-config-universe": "^12.0.0",
     "expo": "~49.0.8",
     "express": "^4.18.2",
+    "expo-image-picker": "~14.3.2",
     "firebase": "^10.3.1",
     "firebase-admin": "^11.11.0",
     "jsonwebtoken": "^9.0.2",
-    "react-native": "0.72.4",
+    "react-native": "0.72.5",
     "react-native-paper": "^5.10.4"
   },
   "devDependencies": {
