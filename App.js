@@ -18,8 +18,11 @@ import ConfigScreen from "./src/Screens/Configuration/Configuration";
 import FriendScreen from "./src/Screens/Friends/Friends";
 import SearchScreen from "./src/Screens/Searcher/Searcher";
 import SubjectScreen from "./src/Screens/Subjects/Subjects";
+import LeaderBoard from "./src/Screens/LeaderBoard/LeaderBoard";
+import ChangePasswordLoggedIn from "./src/Screens/ChangePasswordLoggedIn/ChangePasswordLoggedIn";
 import { Ionicons } from '@expo/vector-icons';
 import { height } from "@mui/system";
+
 
 
 
@@ -138,9 +141,12 @@ const TabNavigator = () =>{
 function StackNavigator(){
 return(
   <Stack.Navigator>
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="SignUp" component={SignUp} />
+        <Stack.Screen name="Login" component={Login} options={{headerShown:false}} />
+        <Stack.Screen name="SignUp" component={SignUp} options={{headerShown:false}} />
         <Stack.Screen name="Home" component={TabNavigator} options={{headerShown:false}} />
+        <Stack.Screen name="LeaderBoard" component={LeaderBoard} options={{headerShown:false}} />
+        <Stack.Screen name="ChangePasswordLoggedIn" component={ChangePasswordLoggedIn} options={{headerShown:false}} />
+        
     </Stack.Navigator>
 
 )
@@ -177,8 +183,8 @@ export default function App() {
     <NavigationContainer>
       
       <StackNavigator>
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="SignUp" component={SignUp} />
+        <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
+        <Stack.Screen name="SignUp" component={SignUp} options={{headerShown:false}}/>
         <Stack.Screen name="Home" component={Home} options={{headerShown:false}}/>
       </StackNavigator>
       
@@ -208,4 +214,3 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
-
