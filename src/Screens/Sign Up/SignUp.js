@@ -15,6 +15,7 @@ import Button from "../../components/Button";
 import Input from "../../components/Input";
 import Loader from "../../components/Loader";
 import COLORS from "../../conts/colors";
+import axios from "axios";
 
 const SignUp = ({ navigation }) => {
   const [inputs, setInputs] = React.useState({
@@ -47,8 +48,8 @@ const SignUp = ({ navigation }) => {
       handleError("Se requiere un numero telefónico", "phoneNumber");
       valid = false;
     } else if (inputs.phoneNumber.length < 10 || inputs.phoneNumber.match(/\D/)) {
-        handleError("Ingresa un numero telefónico valido", "phoneNumber");
-        valid = false;
+      handleError("Ingresa un numero telefónico valido", "phoneNumber");
+      valid = false;
     }
 
     if (!inputs.password || !inputs.passwordConfirm) {
@@ -59,9 +60,9 @@ const SignUp = ({ navigation }) => {
       handleError("La contraseña debe de contener por lo menos 5 caracteres", "password");
       valid = false;
     } else if (inputs.password !== inputs.passwordConfirm) {
-        handleError("La contraseña no coincide", "password");
-        handleError("La contraseña no coincide", "passwordConfirm");
-        valid = false;
+      handleError("La contraseña no coincide", "password");
+      handleError("La contraseña no coincide", "passwordConfirm");
+      valid = false;
     }
 
     if (valid) {
@@ -71,15 +72,26 @@ const SignUp = ({ navigation }) => {
 
   const register = () => {
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      try {
-        AsyncStorage.setItem("user", JSON.stringify(inputs));
-        navigation.navigate("Login");
-      } catch (error) {
-        Alert.alert("Error", "Something went wroing!");
-      }
-    }, 1000);
+
+    try {
+      axios.post(`${process.env.EXPO_PUBLIC_EXPRESS_FORWARDED_URL}/api/Students`, {
+        name: inputs.fullName,
+        email: inputs.email,
+        phone_number: inputs.phoneNumber,
+        password: inputs.password,
+      }).then((response) => {
+        console.log(response.data);
+        AsyncStorage.setItem("user", JSON.stringify({ ...response.data.data, loggedIn: true }));
+        navigation.navigate("Home");
+      }).catch((error) => {
+        console.log(error);
+        Alert.alert("Error", "Something went wrong!");
+      });
+
+    } catch (error) {
+      Alert.alert("Error", "Something went wrong!");
+    }
+    setLoading(false);
   };
 
   const handleOnChange = (text, input) => {
@@ -142,8 +154,8 @@ const SignUp = ({ navigation }) => {
             onChangeText={(text) => handleOnChange(text, "email")}
           />
           <Input
-            keyboardType="numeric"
             placeholder="Ingresa tu número de teléfono"
+            maxLength={10}
             placeholderTextColor={COLORS.grey}
             iconName="phone-outline"
             label="Numero de telefono"
