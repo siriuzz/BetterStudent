@@ -43,5 +43,4 @@ jobs:
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
           STORAGE_BUCKET: ${{ secrets.STORAGE_BUCKET }}
         run: |
-          nodemon server.js
           npm run test

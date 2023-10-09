@@ -1,6 +1,6 @@
 const controllers = require('../firebase/controllers');
 const db = require('../firebase/firestore');
-const { getFirestore, collection, addDoc, doc, getDoc, deleteDoc, setDoc } = require('firebase/firestore');
+const { collection, addDoc, doc, getDoc, deleteDoc, setDoc } = require('firebase/firestore');
 
 // Define a collection and document for testing
 const testCollection = 'comments';
