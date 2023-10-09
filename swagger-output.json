@@ -60,6 +60,206 @@
           }
         }
       }
+    },
+    "/api/Students/{id}": {
+      "get": {
+        "tags": [
+          "Students"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Students"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Student"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Student"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Student"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Student"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Students"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Students/{id}/Reviews": {
+      "get": {
+        "tags": [
+          "Students"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Students"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Review"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Review"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Review"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Review"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/login": {
+      "post": {
+        "tags": [
+          "Login"
+        ],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Student"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Student"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Student"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Student"
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -106,6 +306,196 @@
         ],
         "xml": {
           "name": "Student"
+        }
+      },
+      "Login": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "example@email.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "1234567890"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ],
+        "xml": {
+          "name": "Login"
+        }
+      },
+      "Career": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Ingeniería en Sistemas Computacionales"
+          },
+          "faculty": {
+            "type": "string",
+            "example": "Facultad de Ingeniería"
+          }
+        },
+        "required": [
+          "name",
+          "faculty"
+        ],
+        "xml": {
+          "name": "Career"
+        }
+      },
+      "Review": {
+        "type": "object",
+        "properties": {
+          "student_id": {
+            "type": "string",
+            "example": "1"
+          },
+          "title": {
+            "type": "string",
+            "example": "Excelente profesor"
+          },
+          "comment": {
+            "type": "string",
+            "example": "El profesor es muy bueno"
+          },
+          "rating": {
+            "type": "string",
+            "example": "5"
+          },
+          "date": {
+            "type": "string",
+            "example": "2021-10-10"
+          }
+        },
+        "required": [
+          "student_id",
+          "title",
+          "comment",
+          "rating",
+          "date"
+        ],
+        "xml": {
+          "name": "Review"
+        }
+      },
+      "Section": {
+        "type": "object",
+        "properties": {
+          "subject_id": {
+            "type": "string",
+            "example": "1"
+          },
+          "schedule_id": {
+            "type": "string",
+            "example": "1"
+          },
+          "classroom_code": {
+            "type": "string",
+            "example": "123"
+          },
+          "professor_id": {
+            "type": "string",
+            "example": "1"
+          },
+          "number": {
+            "type": "string",
+            "example": "1"
+          }
+        },
+        "required": [
+          "subject_id",
+          "schedule_id",
+          "classroom_code",
+          "professor_id",
+          "number"
+        ],
+        "xml": {
+          "name": "Section"
+        }
+      },
+      "Friend": {
+        "type": "object",
+        "properties": {
+          "student_id": {
+            "type": "string",
+            "example": "1"
+          },
+          "friend_id": {
+            "type": "string",
+            "example": "2"
+          }
+        },
+        "required": [
+          "student_id",
+          "friend_id"
+        ],
+        "xml": {
+          "name": "Friend"
+        }
+      },
+      "Subject": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Programación Orientada a Objetos"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "xml": {
+          "name": "Subject"
+        }
+      },
+      "Schedule": {
+        "type": "object",
+        "properties": {
+          "start_time": {
+            "type": "string",
+            "example": "10:00"
+          },
+          "end_time": {
+            "type": "string",
+            "example": "11:00"
+          },
+          "day": {
+            "type": "string",
+            "example": "Lunes"
+          }
+        },
+        "required": [
+          "start_time",
+          "end_time",
+          "day"
+        ],
+        "xml": {
+          "name": "Schedule"
+        }
+      },
+      "Professor": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Juan"
+          },
+          "email": {
+            "type": "string",
+            "example": "juan@email.com"
+          }
+        },
+        "required": [
+          "name",
+          "email"
+        ],
+        "xml": {
+          "name": "Professor"
         }
       }
     }

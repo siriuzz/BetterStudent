@@ -58,6 +58,17 @@ class Review {
         this.date = date;
         this.rating = rating;
     }
+
+    toObject() {
+        return {
+            student_id: this.student_id,
+            title: this.title,
+            comment: this.comment,
+            date: this.date,
+            rating: this.rating,
+        };
+    }
+
 }
 
 class Section {
