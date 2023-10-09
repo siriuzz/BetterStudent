@@ -131,11 +131,9 @@ class AdminController {
                 return data;
             } else {
                 console.log('No such document!');
-                return null;
             }
         } catch (error) {
             console.error('Error getting document:', error);
-            throw error;
         }
     }
 }

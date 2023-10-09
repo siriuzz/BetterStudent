@@ -15,12 +15,11 @@ import Input from "../../components/Input";
 import Loader from "../../components/Loader";
 import COLORS from "../../conts/colors";
 import Logo from "../../../assets/Logo.png";
+import axios from "axios";
 
 const Login = ({ navigation }) => {
   const [inputs, setInputs] = React.useState({
     email: "",
-    fullName: "",
-    phoneNumber: "",
     password: "",
   });
   const [errors, setErrors] = React.useState({});
@@ -46,27 +45,45 @@ const Login = ({ navigation }) => {
 
   const login = () => {
     setLoading(true);
-    setTimeout(async () => {
-      setLoading(false);
-      let userData = await AsyncStorage.getItem("user");
-      if (userData) {
-        userData = JSON.parse(userData);
-        if (
-          inputs.email == userData.email &&
-          inputs.password == userData.password
-        ) {
-          AsyncStorage.setItem(
-            "user",
-            JSON.stringify({ ...userData, loggedIn: true }),
-          );
-          navigation.navigate("Home");
-        } else {
-          Alert.alert("Error", "Email or password is incorrect!");
-        }
+    console.log(process.env.EXPO_PUBLIC_EXPRESS_URL)
+
+    axios.post(`https://tdrg6sbr-3001.use2.devtunnels.ms/api/login`, {
+      email: inputs.email,
+      password: inputs.password,
+    }).then((response) => {
+      console.log(response.data);
+      if (response.data.message) {
+        Alert.alert("Error", response.data.message);
       } else {
-        Alert.alert("Error", "User does not exist!");
+        AsyncStorage.setItem(
+          "user",
+          JSON.stringify({ ...response.data, loggedIn: true }),
+        );
+        navigation.navigate("Home");
       }
-    }, 1000);
+    }).catch((error) => {
+      console.log(error);
+      Alert.alert("Error", "Email or password is incorrect!");
+    });
+
+    // if (userData) {
+    //   userData = JSON.parse(userData);
+    //   if (
+    //     inputs.email == userData.email &&
+    //     inputs.password == userData.password
+    //   ) {
+    //     AsyncStorage.setItem(
+    //       "user",
+    //       JSON.stringify({ ...userData, loggedIn: true }),
+    //     );
+    //     navigation.navigate("Home");
+    //   } else {
+    //     Alert.alert("Error", "Email or password is incorrect!");
+    //   }
+    // } else {
+    //   Alert.alert("Error", "User does not exist!");
+    // }
+    setLoading(false);
   };
 
   const handleOnChange = (text, input) => {
@@ -78,7 +95,7 @@ const Login = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={{ backgroundColor: COLORS.white, flex: 1}}>
+    <SafeAreaView style={{ backgroundColor: COLORS.white, flex: 1 }}>
       <Loader visible={loading} />
       <ScrollView
         contentContainerStyle={{
@@ -86,13 +103,13 @@ const Login = ({ navigation }) => {
           paddingHorizontal: 20,
         }}
       >
-        <Image 
-            source={Logo}
-            style={{
+        <Image
+          source={Logo}
+          style={{
             height: 250,
             width: 200,
             alignSelf: 'center',
-            }}
+          }}
         />
         <Text style={{ color: COLORS.black, fontSize: 40, fontWeight: "bold", alignSelf: 'center', marginTop: 10 }}>
           Iniciar sesión

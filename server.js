@@ -6,8 +6,8 @@ const cors = require('cors');
 const swaggerDocument = require('./swagger-output.json');
 
 //routes
-const studentsRoutes = require('./api/students-routes');
-const loginRoutes = require('./api/auth/login-routes');
+const studentsRoutes = require('./api/students');
+const loginRoutes = require('./api/auth/login');
 
 require('dotenv').config();
 

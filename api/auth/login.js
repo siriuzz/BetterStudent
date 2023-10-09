@@ -12,29 +12,44 @@ router.post('/login', async (req, res) => {
     }
     */
     const student = await controllers.StudentController.getStudentByEmail(req.body.email);
-    console.log(student);
-    if (!student) return res.json({ message: "The email or password is incorrect" }).status(404);
+    let stop = false;
+    if (student === undefined) return res.json({ message: "The email or password is incorrect" }).status(404);
     else {
-        bcrypt.compare(req.body.password, student.password, function (err, result) {
-            if (result) {
-                return res.json({
+        const result = bcrypt.compare(req.body.password, student.password);
+        if (result) {
+            stop = true;
+            res.json({
+                status: "Success",
+                message: "Login successful!",
+                data: {
                     id: student.id,
                     name: student.name,
                     email: student.email,
                     rating: student.rating,
                     career_id: student.career_id
-                }).status(200);
-            } else {
-                return res.json({ message: "The email or password is incorrect" }).status(200);
-            }
-        });
+                }
+            }).status(200);
+        } else {
+            return res.json({ message: "The email or password is incorrect" }).status(401);
+        }
     }
+    if (stop) { return "done"; }
     const admin = await controllers.AdminController.getAdminByEmail(req.body.email);
-    if (!admin) return res.json({ message: "The email or password is incorrect" }).status(404);
+    if (admin == undefined) {
+        return res.json({ message: "The email or password is incorrect" }).status(404);
+    }
     else {
         bcrypt.compare(req.body.password, admin.password, function (err, result) {
             if (result) {
-                return res.json(admin).status(200);
+                return res.json({
+                    status: "Success",
+                    message: "Login successful!",
+                    data: {
+                        id: admin.id,
+                        name: admin.name,
+                        email: admin.email
+                    }
+                }).status(200);
             } else {
                 return res.json({ message: "The email or password is incorrect" }).status(200);
             }
