@@ -8,7 +8,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eslint": "npx eslint --init",
-    "test": "jest",
+    "test": "jest --detectOpenHandles --runInBand",
     "lint": "eslint ."
   },
   "dependencies": {
