@@ -1,52 +1,52 @@
 import React from 'react';
 import { Text, TouchableOpacity, View, StyleSheet, Image } from 'react-native';
-import COLORS from '../conts/colors';
+import COLORS from '../constants/colors';
 
-const LeaderBoardPerson = ({position, image, name, major, points }) => {
-    let colorNumber = {
-        color: {
-            color: COLORS.lightBlue, // Valor predeterminado si no se cumple ninguna condición
-        }
-    };
-
-    if ( position === 1) {
-        colorNumber = {
-            color: {
-                color: COLORS.darkYellow,
-            }
-        }
-    } else if ( position === 2) {
-        colorNumber = {
-            color: {
-                color: COLORS.black,
-            }
-        }
-    } else if ( position === 3) {
-        colorNumber = {
-            color: {
-                color: COLORS.navyBlue,
-            }
-        }
+const LeaderBoardPerson = ({ position, image, name, major, points }) => {
+  let colorNumber = {
+    color: {
+      color: COLORS.lightBlue, // Valor predeterminado si no se cumple ninguna condición
     }
+  };
+
+  if (position === 1) {
+    colorNumber = {
+      color: {
+        color: COLORS.darkYellow,
+      }
+    }
+  } else if (position === 2) {
+    colorNumber = {
+      color: {
+        color: COLORS.black,
+      }
+    }
+  } else if (position === 3) {
+    colorNumber = {
+      color: {
+        color: COLORS.navyBlue,
+      }
+    }
+  }
 
   return (
     <View style={styles.fill}>
-        <View style={styles.numPosPerson}>
-            <Text style={[ colorNumber.color, {fontSize: 16, fontWeight: 'bold'}]}>#{position}</Text>
-        
-            <Image
-                style={styles.img}
-                source={image} 
-            />
-            <View style={styles.txt}>
-                <Text style={{fontSize: 16, fontWeight: 'bold', color: COLORS.darkBlue}}>{name}</Text>
-                <Text style={{fontSize: 12, fontWeight: 'regular', color: COLORS.yellow}}>{major}</Text>
-            </View>
+      <View style={styles.numPosPerson}>
+        <Text style={[colorNumber.color, { fontSize: 16, fontWeight: 'bold' }]}>#{position}</Text>
+
+        <Image
+          style={styles.img}
+          source={image}
+        />
+        <View style={styles.txt}>
+          <Text style={{ fontSize: 16, fontWeight: 'bold', color: COLORS.darkBlue }}>{name}</Text>
+          <Text style={{ fontSize: 12, fontWeight: 'regular', color: COLORS.yellow }}>{major}</Text>
         </View>
-        <View style={{width: '20%', justifyContent: 'flex-end'}}>
-            <Text style={{fontSize: 12, fontWeight: 'regular', color: COLORS.yellow}}>{points} puntos</Text>  
-        </View>
-        
+      </View>
+      <View style={{ width: '20%', justifyContent: 'flex-end' }}>
+        <Text style={{ fontSize: 12, fontWeight: 'regular', color: COLORS.yellow }}>{points} puntos</Text>
+      </View>
+
     </View>
   );
 };

@@ -1,11 +1,8 @@
 import React from "react";
 import { Platform, Settings, StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
-import { getAnalytics } from "firebase/analytics";
 import SignUp from "./src/Screens/Sign Up/SignUp"
 import { NavigationContainer } from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from './src/Screens/Login/Login';
 import Home from './src/Screens/Home/Home';
 import Loader from './src/components/Loader';
@@ -23,26 +20,6 @@ import ChangePasswordLoggedIn from "./src/Screens/ChangePasswordLoggedIn/ChangeP
 import { Ionicons } from '@expo/vector-icons';
 import { height } from "@mui/system";
 
-
-
-
-
-
-
-const firebaseConfig = {
-  apiKey: process.env.API_KEY,
-  authDomain: process.env.AUTH_DOMAIN,
-  projectId: process.env.PROJECT_ID,
-  storageBucket: process.env.STORAGE_BUCKET,
-  messagingSenderId: process.env.MESSAGING_SENDER_ID,
-  appId: process.env.APP_ID,
-  measurementId: process.env.MEASUREMENT_ID,
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-// const analytics = getAnalytics(app);
-
 const homeName = "Home"
 const ConfigurationName = 'Configuracion'
 const FriendName = 'Amigos'
@@ -55,43 +32,43 @@ const Tab = createMaterialBottomTabNavigator();
 
 
 
-const TabNavigator = () =>{
-  return(
-    <Tab.Navigator shifting={false} barStyle={{height:55, backgroundColor:"#FFFFFF"}} >
-      <Tab.Screen 
-      name={SubjectName} 
-      component={SubjectScreen} 
-      options={{
-        tabBarIcon:({focused})=>{
-          return(
-          <View>
-            <Ionicons name={focused? "book":"book-outline"} size={24} color={focused ? "#C08708":"#002793"} />
-          </View>)
-        },
-        tabBarLabel: ""
+const TabNavigator = () => {
+  return (
+    <Tab.Navigator shifting={false} barStyle={{ height: 55, backgroundColor: "#FFFFFF" }} activeColor="#e91e63" >
+      <Tab.Screen
+        name={SubjectName}
+        component={SubjectScreen}
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <View>
+                <Ionicons name={focused ? "book" : "book-outline"} size={24} color={focused ? "#C08708" : "#002793"} />
+              </View>)
+          },
+          tabBarLabel: ""
 
         }} />
-      <Tab.Screen name={FriendName} 
-      component={FriendScreen} 
-      options={{
-        tabBarIcon:(
-          {focused})=>{
-            return(
-            <View>
-              <Ionicons name={focused? "person":"person-outline"} size={24} color={focused ? "#C08708":"#002793"} />
-            </View>
+      <Tab.Screen name={FriendName}
+        component={FriendScreen}
+        options={{
+          tabBarIcon: (
+            { focused }) => {
+            return (
+              <View>
+                <Ionicons name={focused ? "person" : "person-outline"} size={24} color={focused ? "#C08708" : "#002793"} />
+              </View>
             )
-            },
-            tabBarLabel: ""
-            }}/>
-      <Tab.Screen 
-      name={homeName} 
-      component={Home} 
-      options={{
-        tabBarIcon:({focused})=>{
-          return(
-            <View
-            style={{
+          },
+          tabBarLabel: ""
+        }} />
+      <Tab.Screen
+        name={homeName}
+        component={Home}
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <View
+                style={{
                   alignItems: "center",
                   justifyContent: "center",
                   backgroundColor: "#FFFFFF",
@@ -100,110 +77,110 @@ const TabNavigator = () =>{
                   top: Platform.OS == "ios" ? -10 : -5,
                   borderRadius: Platform.OS == "ios" ? 25 : 10,
                   elevation: 7,
-            }}
-            >
-          <Ionicons name={focused?"home":"home-outline"} size={24} color={focused ? "#C08708":"#002793"}/>
-            </View>
-          )
-        },
-        tabBarLabel: ""
-      }}/>
-      <Tab.Screen 
-      name={SearchName} 
-      component={SearchScreen} 
-      options={{
-        tabBarIcon:({focused})=>{
-          return(
-          <View>
-            <Ionicons name={focused? "search":"search-outline"} size={24} color={focused ? "#C08708":"#002793"} />
-          </View>
-          )
+                }}
+              >
+                <Ionicons name={focused ? "home" : "home-outline"} size={24} color={focused ? "#C08708" : "#002793"} />
+              </View>
+            )
           },
           tabBarLabel: ""
-          }} />
-      <Tab.Screen 
-      name={ConfigurationName} 
-      component={ConfigScreen}
-      options={{
-        tabBarIcon:({focused})=>{
-          return(
-          <View>
-            <Ionicons name={focused? "settings":"settings-outline"} size={24} color={focused ? "#C08708":"#002793"} />  
-          </View>
-          )
+        }} />
+      <Tab.Screen
+        name={SearchName}
+        component={SearchScreen}
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <View>
+                <Ionicons name={focused ? "search" : "search-outline"} size={24} color={focused ? "#C08708" : "#002793"} />
+              </View>
+            )
           },
           tabBarLabel: ""
-        }}/>
+        }} />
+      <Tab.Screen
+        name={ConfigurationName}
+        component={ConfigScreen}
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <View>
+                <Ionicons name={focused ? "settings" : "settings-outline"} size={24} color={focused ? "#C08708" : "#002793"} />
+              </View>
+            )
+          },
+          tabBarLabel: ""
+        }} />
     </Tab.Navigator>
   )
 }
 
-function StackNavigator(){
-return(
-  <Stack.Navigator>
-        <Stack.Screen name="Login" component={Login} options={{headerShown:false}} />
-        <Stack.Screen name="SignUp" component={SignUp} options={{headerShown:false}} />
-        <Stack.Screen name="Home" component={TabNavigator} options={{headerShown:false}} />
-        <Stack.Screen name="LeaderBoard" component={LeaderBoard} options={{headerShown:false}} />
-        <Stack.Screen name="ChangePasswordLoggedIn" component={ChangePasswordLoggedIn} options={{headerShown:false}} />
-        
+function StackNavigator() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+      <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
+      <Stack.Screen name="Home" component={TabNavigator} options={{ headerShown: false }} />
+      <Stack.Screen name="LeaderBoard" component={LeaderBoard} options={{ headerShown: false }} />
+      <Stack.Screen name="ChangePasswordLoggedIn" component={ChangePasswordLoggedIn} options={{ headerShown: false }} />
+
     </Stack.Navigator>
 
-)
+  )
 }
 
 
 
 export default function App() {
   const [initialRouteName, setInitialRouteName] = React.useState('');
-    React.useEffect(() => {
+  React.useEffect(() => {
     setTimeout(authUser, 1000);
-    }, []);
-  const authUser = async() => {
-    try{
+  }, []);
+  const authUser = async () => {
+    try {
       let userData = await AsyncStorage.getItem('user');
-      if(userData) {
+      if (userData) {
         userData = JSON.parse(userData);
-        if(userData?.loggedIn) {
+        if (userData?.loggedIn) {
           setInitialRouteName('Home');
-        }else {
+        } else {
           setInitialRouteName('Login');
         }
-      }else {
+      } else {
         setInitialRouteName('SignUp');
       }
-    }catch(error) {
+    } catch (error) {
       setInitialRouteName('SignUp');
     }
   };
-  
+
   return (
 
-  
+
     <NavigationContainer>
-      
+
       <StackNavigator>
-        <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
-        <Stack.Screen name="SignUp" component={SignUp} options={{headerShown:false}}/>
-        <Stack.Screen name="Home" component={TabNavigator} options={{headerShown:false}}/>
+        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+        <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
+        <Stack.Screen name="Home" component={TabNavigator} options={{ headerShown: false }} />
       </StackNavigator>
-      
-      
+
+
 
       {initialRouteName == "" ? (
-        <Loader visible={true}/>
+        <Loader visible={true} />
       ) : (
         <>
-        {/* initialRouteName={initialRouteName} */}
-        {/* screenOptions={{headerShown:false}} */}
-          
+          {/* initialRouteName={initialRouteName} */}
+          {/* screenOptions={{headerShown:false}} */}
+
         </>
-        
+
       )}
-      
+
     </NavigationContainer>
   );
-  
+
 }
 
 const styles = StyleSheet.create({

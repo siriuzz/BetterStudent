@@ -13,7 +13,7 @@ import {
 import Button from "../../components/Button";
 import Input from "../../components/Input";
 import Loader from "../../components/Loader";
-import COLORS from "../../conts/colors";
+import COLORS from "../../constants/colors";
 import Logo from "../../../assets/Logo.png";
 import axios from "axios";
 
@@ -51,11 +51,12 @@ const Login = ({ navigation }) => {
       email: inputs.email,
       password: inputs.password,
     }).then((response) => {
-      console.log(response.data);
-      if (response.data.status == "Success") {
+      console.log(response);
+      if (response.data.email !== undefined) {
+        // console.log(response.data);
         AsyncStorage.setItem(
           "user",
-          JSON.stringify({ ...response.data.data, loggedIn: true }),
+          JSON.stringify(response.data)
         );
         navigation.navigate("Home");
       } else {

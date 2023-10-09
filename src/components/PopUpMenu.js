@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal, View, TouchableOpacity, Text, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Login from '../Screens/Login/Login';
-import COLORS from '../conts/colors';
+import COLORS from '../constants/colors';
 
 const PopUpMenu = ({ isVisible, onClose }) => {
   const navigation = useNavigation(); // Usa useNavigation para acceder a la navegación

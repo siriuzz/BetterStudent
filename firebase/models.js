@@ -3,13 +3,12 @@ class User {
         this.name = name;
         this.email = email;
         this.phone_number = phone_number;
-        this.password = password;
     }
 }
 
 class Student extends User {
-    constructor(name, email, phone_number, password, info = "Inserta tu información", rating = 0.0, career_id = 1) {
-        super(name, email, phone_number, password);
+    constructor(name, email, phone_number, info = "Inserta tu información", rating = 0.0, career_id = 1) {
+        super(name, email, phone_number);
         this.info = info;
         this.rating = rating;
         this.career_id = career_id;
@@ -20,7 +19,6 @@ class Student extends User {
             name: this.name,
             email: this.email,
             phone_number: this.phone_number,
-            password: this.password,
             info: this.info,
             rating: this.rating,
             career_id: this.career_id,
@@ -29,8 +27,8 @@ class Student extends User {
 }
 
 class Admin extends User {
-    constructor(name, email, phone_number, password) {
-        super(name, email, phone_number, password);
+    constructor(name, email, phone_number) {
+        super(name, email, phone_number);
     }
 
     toObject() {
@@ -38,7 +36,6 @@ class Admin extends User {
             name: this.name,
             email: this.email,
             phone_number: this.phone_number,
-            password: this.password,
         };
     }
 }

@@ -16,14 +16,15 @@ router.get('/Students', async (req, res) => {
         schema: { $ref: "#/components/schemas/Student" }
     }
     */
-    bcrypt.genSalt(10, function (err, salt) {
-        bcrypt.hash(req.body.password, salt, async function (err, hash) {
-            req.body.password = hash;
-            await controllers.StudentController.addStudent(req.body);
-            // const student = await firebase.addDocumentToCollection('students', req.body);
-            res.json({ message: "The student has been created" }).status(200);
-        });
-    });
+    await controllers.StudentController.addStudent(req.body);
+    // bcrypt.genSalt(10, function (err, salt) {
+    //     bcrypt.hash(req.body.password, salt, async function (err, hash) {
+    //         req.body.password = hash;
+    //         // const student = await firebase.addDocumentToCollection('students', req.body);
+    //         res.json({ message: "The student has been created" }).status(200);
+    //     });
+    // });
+    res.json({ message: "The student has been created" }).status(200);
 });
 
 router.get('/Students/:id', async (req, res) => {

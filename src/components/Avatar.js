@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import user from '../../assets/icon-user.png';
 import edit from '../../assets/icon-edit.png'
-import COLORS from "../conts/colors";
+import COLORS from "../constants/colors";
 import * as ImagePicker from 'expo-image-picker';
 import TopButtons from './TobButtons';
 
@@ -35,17 +35,17 @@ const Avatar = (props) => {
 
         setSelectedImage({ localUri: pickerResult.assets[0].uri });
     }
-    
-    return(
+
+    return (
         <View style={[styles.shape, colorShape.shape]}>
             <View style={styles.userImagePosition}>
                 <View style={styles.imageBack}>
-                    
+
                     {/*Expresion ternario: Con props para permitir edicion de imagen, o solo mostrarla*/}
-                    { props.enableEdit === true ? (
+                    {props.enableEdit === true ? (
                         <TouchableOpacity onPress={openImagePickerAsync}>
                             {/*Expresion ternaria: Si se coloco una uri de imagen se muestra esa, sino se muestra la imagen por default*/}
-                            { selectedImage ? (
+                            {selectedImage ? (
                                 <Image
                                     style={styles.userImage}
                                     source={{ uri: selectedImage.localUri }}
@@ -53,32 +53,32 @@ const Avatar = (props) => {
                             ) : (
                                 <Image
                                     style={styles.userImage}
-                                    source={ user }
+                                    source={user}
                                 />
-                                )
+                            )
                             }
-    
-                            <Image 
+
+                            <Image
                                 style={styles.editIcon}
-                                source={ edit }
+                                source={edit}
                             />
                         </TouchableOpacity>
-                    ):(
+                    ) : (
                         <View>
-                        {/*Expresion ternaria: Si se coloco una uri de imagen se muestra esa, sino se muestra la imagen por default*/}
-                        {selectedImage ? (
-                            <Image
-                                style={styles.userImage}
-                                source={{ uri: selectedImage.localUri }}
-                            />
-                        ) : (
-                            <Image
-                                style={styles.userImage}
-                                source={ user }
-                            />
+                            {/*Expresion ternaria: Si se coloco una uri de imagen se muestra esa, sino se muestra la imagen por default*/}
+                            {selectedImage ? (
+                                <Image
+                                    style={styles.userImage}
+                                    source={{ uri: selectedImage.localUri }}
+                                />
+                            ) : (
+                                <Image
+                                    style={styles.userImage}
+                                    source={user}
+                                />
                             )
-                        }
-                    </View>
+                            }
+                        </View>
                     )}
                 </View>
             </View>
@@ -91,8 +91,8 @@ const styles = StyleSheet.create({
     imageBack: {
         backgroundColor: COLORS.grey,
         width: 120,
-        height: 120, 
-        borderRadius: 60, 
+        height: 120,
+        borderRadius: 60,
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
         resizeMode: 'cover',
         borderRadius: 60,
     },
-    editIcon:{
+    editIcon: {
         position: 'absolute',
         backgroundColor: COLORS.light,
         height: 36,
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
         resizeMode: 'cover',
         borderRadius: 60,
     },
-    shape:{
+    shape: {
         width: '150%',
         height: '32%',
         borderBottomLeftRadius: 280,
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 60,
     },
-    userImagePosition:{
+    userImagePosition: {
         position: 'absolute',
         top: '73%',
     }

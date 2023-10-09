@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import Button from "../../components/Button";
 import TopButtons from "../../components/TobButtons"
-import COLORS from "../../conts/colors";
+import COLORS from "../../constants/colors";
 import LeaderBoardPerson from "../../components/LeaderBoardPerson";
 import iconStar from "../../../assets/icon-star.png"
 import { GlobalStyles } from "../GlobalStyles";
@@ -31,59 +31,60 @@ const data = [ //info de ejemplo
   { image: iconStar, name: 'Donato Machado', major: 'Tecnologías de la Información y de la Comunicación', points: 1000 },
   { image: iconStar, name: 'Donato Machado', major: 'Tecnologías de la Información y de la Comunicación', points: 1000 },
   { image: iconStar, name: 'Donato Machado', major: 'Tecnologías de la Información y de la Comunicación', points: 1000 },
-  
+
 ];
 
-export default function LeaderBoard({navigation}){
+export default function LeaderBoard({ navigation }) {
   const [userDetails, setUserDetails] = React.useState({});
-    React.useEffect(() => {
-        getUserDetails();
-    }, []);
+  React.useEffect(() => {
+    getUserDetails();
 
-    const getUserDetails = async () => {
-      try {
-        const userData = await AsyncStorage.getItem('user');
-        if (userData) {
-          const userDetailsArray = [JSON.parse(userData)]; // Convierte el objeto en un arreglo
-          setUserDetails(userDetailsArray);
-        }
-      } catch (error) {
-        console.error('Error al obtener los detalles del usuario:', error);
+  }, []);
+
+  const getUserDetails = async () => {
+    try {
+      const userData = await AsyncStorage.getItem('user');
+      if (userData) {
+        const userDetailsArray = [JSON.parse(userData)]; // Convierte el objeto en un arreglo
+        setUserDetails(userDetailsArray);
       }
-    };
+    } catch (error) {
+      console.error('Error al obtener los detalles del usuario:', error);
+    }
+  };
 
-  return(
+  return (
     <SafeAreaView
       style={{
-        flex:1,
+        flex: 1,
         backgroundColor: COLORS.white,
         paddingTop: '33%',
         alignItems: 'center',
       }}>
-        <TopButtons 
+      <TopButtons
         enableGoBack={true}
-        enableTopRightIcons={false}/>
-      
-        <View style={{width: '100%', alignItems: 'flex-start', paddingHorizontal: 20}}>
-          <Text style={GlobalStyles.title}>LeaderBoard</Text>
-          <FlatList
-            data={data}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item, index }) => (
-              <LeaderBoardPerson
-                filled={index > 0}  //Puedes personalizar esto según tus criterios
-                position={index + 1} // Posicion del estudiante
-                image={item.image} //Imagen del estudiante
-                name={item.name} //Nombre del estudiante
-                major={item.major} //Carrera del estudiante
-                points={item.points} //Puntos del estudiante
-              />
-            )}
-          />
-        <Button onPress={() => {navigation.navigate('Home')}}>Home</Button>
-    </View>
-      
+        enableTopRightIcons={false} />
+
+      <View style={{ width: '100%', alignItems: 'flex-start', paddingHorizontal: 20 }}>
+        <Text style={GlobalStyles.title}>LeaderBoard</Text>
+        <FlatList
+          data={data}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item, index }) => (
+            <LeaderBoardPerson
+              filled={index > 0}  //Puedes personalizar esto según tus criterios
+              position={index + 1} // Posicion del estudiante
+              image={item.image} //Imagen del estudiante
+              name={item.name} //Nombre del estudiante
+              major={item.major} //Carrera del estudiante
+              points={item.points} //Puntos del estudiante
+            />
+          )}
+        />
+        <Button onPress={() => { navigation.navigate('Home') }}>Home</Button>
+      </View>
+
     </SafeAreaView>
-    
+
   )
 }
