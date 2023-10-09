@@ -8,7 +8,7 @@ class User {
 }
 
 class Student extends User {
-    constructor(name, email, phone_number, password, info = "Inserta tu información", rating = 0.0, career_id) {
+    constructor(name, email, phone_number, password, info = "Inserta tu información", rating = 0.0, career_id = 1) {
         super(name, email, phone_number, password);
         this.info = info;
         this.rating = rating;

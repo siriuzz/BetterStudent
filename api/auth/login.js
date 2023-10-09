@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const controllers = require('../../firebase/dependency-injection');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 router.post('/login', async (req, res) => {
     /*#swagger.tags = ['Login']*/
@@ -11,29 +13,32 @@ router.post('/login', async (req, res) => {
         schema: { $ref: "#/components/schemas/Student" }
     }
     */
-    const student = await controllers.StudentController.getStudentByEmail(req.body.email);
     let stop = false;
+    const student = await controllers.StudentController.getStudentByEmail(req.body.email);
     if (student === undefined) return res.json({ message: "The email or password is incorrect" }).status(404);
     else {
-        const result = bcrypt.compare(req.body.password, student.password);
-        if (result) {
-            stop = true;
-            res.json({
-                status: "Success",
-                message: "Login successful!",
-                data: {
-                    id: student.id,
-                    name: student.name,
-                    email: student.email,
-                    rating: student.rating,
-                    career_id: student.career_id
-                }
-            }).status(200);
-        } else {
-            return res.json({ message: "The email or password is incorrect" }).status(401);
-        }
+        stop = true;
+        bcrypt.compare(req.body.password, student.password, function (err, result) {
+            if (result) {
+                const token = jwt.sign({ id: student.id }, process.env.TOKEN_SECRET, { expiresIn: 60 });
+                res.json({
+                    status: "Success",
+                    message: "Login successful!",
+                    token: token,
+                    data: {
+                        id: student.id,
+                        name: student.name,
+                        email: student.email,
+                        rating: student.rating,
+                        career_id: student.career_id
+                    }
+                }).status(200);
+            } else {
+                return res.json({ message: "The email or password is incorrect" }).status(401);
+            }
+        });
     }
-    if (stop) { return "done"; }
+    if (stop) return;
     const admin = await controllers.AdminController.getAdminByEmail(req.body.email);
     if (admin == undefined) {
         return res.json({ message: "The email or password is incorrect" }).status(404);
@@ -55,6 +60,7 @@ router.post('/login', async (req, res) => {
             }
         });
     }
+
     // if (!(student && admin)) return res.json({ message: "The email or password is incorrect" }).status(404);
 });
 

@@ -45,25 +45,27 @@ const Login = ({ navigation }) => {
 
   const login = () => {
     setLoading(true);
-    console.log(process.env.EXPO_PUBLIC_EXPRESS_URL)
+    // console.log(process.env.EXPO_PUBLIC_EXPRESS_URL)
 
-    axios.post(`https://tdrg6sbr-3001.use2.devtunnels.ms/api/login`, {
+    axios.post(`${process.env.EXPO_PUBLIC_EXPRESS_FORWARDED_URL}/api/login`, {
       email: inputs.email,
       password: inputs.password,
     }).then((response) => {
       console.log(response.data);
-      if (response.data.message) {
-        Alert.alert("Error", response.data.message);
-      } else {
+      if (response.data.status == "Success") {
         AsyncStorage.setItem(
           "user",
-          JSON.stringify({ ...response.data, loggedIn: true }),
+          JSON.stringify({ ...response.data.data, loggedIn: true }),
         );
         navigation.navigate("Home");
+      } else {
+        return Alert.alert("Error", "Email or password is incorrect!");
+
       }
+
     }).catch((error) => {
       console.log(error);
-      Alert.alert("Error", "Email or password is incorrect!");
+      return Alert.alert("Error", "Email or password is incorrect!");
     });
 
     // if (userData) {
