@@ -152,7 +152,7 @@ const Login = ({ navigation }) => {
               fontWeight: "bold",
             }}
           >
-            ¿No tienes una cuenta? <Text style={{ color: COLORS.darkYellow }}>Registrate</Text>
+            ¿No tienes una cuenta? <Text style={{ color: COLORS.darkYellow }}>Regístrate</Text>
           </Text>
         </View>
       </ScrollView>

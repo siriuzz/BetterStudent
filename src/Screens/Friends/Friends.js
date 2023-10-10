@@ -27,7 +27,7 @@ export default function FriendScreen({ navigation }) {
         <Text style={GlobalStyles.title}>Amigos</Text>
         <SearchBar data={[]} />
         <ScrollView>
-          <View style={{ width: '100%', alignItems: 'center' }}>
+          <View style={{ width: '100%', alignItems: 'center', paddingTop: 10, paddingBottom: 20 }}>
             <FriendListItem image={'../../../assets/Logo.png'} name={"Juan"} major={'ing'} />
             <FriendListItem image={'../../../assets/Logo.png'} name={"Juan"} major={'ing'} />
             <FriendListItem image={'../../../assets/Logo.png'} name={"Juan"} major={'ing'} />

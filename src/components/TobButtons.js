@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Image, TouchableOpacity, View, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import IconEntypo from 'react-native-vector-icons/Entypo';
+import IconSimple from 'react-native-vector-icons/SimpleLineIcons';
+
 import iconBack from '../../assets/icon-back.png';
 import iconMenuVertical from '../../assets/icon-menu-vertical.png';
 import iconBarChart from '../../assets/icon-bar-chart.png';
@@ -11,7 +14,7 @@ const TopButtons = (props) => {
 
     const goBack = () => {
         navigation.goBack(); // Retrocede a la pantalla anterior
-      };
+    };
 
     const [isMenuVisible, setMenuVisible] = useState(false);
 
@@ -19,40 +22,46 @@ const TopButtons = (props) => {
         setMenuVisible(!isMenuVisible);
     };
 
-    return(
+    return (
         <View style={styles.buttons}>
-            <View style={{alignItems: 'flex-start'}}>
-                { props.enableGoBack === true ? (
+            <View style={{ alignItems: 'flex-start' }}>
+                {props.enableGoBack === true ? (
                     <TouchableOpacity onPress={goBack}>
                         <Image
-                        source={iconBack}
+                            source={goBack}
                         />
                     </TouchableOpacity>
-                ):(
+                ) : (
                     null
                 )}
-                
+
             </View>
-            <View  style={{ flexDirection: 'row' ,alignItems: 'flex-end'}}>
-                { props.enableTopRightIcons === true ? (
+            <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+                {props.enableTopRightIcons === true ? (
                     <>
                         <TouchableOpacity onPress={() => navigation.navigate('LeaderBoard')}>
-                            <Image
-                            source={iconBarChart}
-                            />
+                            <View>
+                                <IconEntypo
+                                    name="bar-graph"
+                                    style={{ fontSize: 24, marginRight: 12 }} />
+
+                            </View>
+
                         </TouchableOpacity>
                         <TouchableOpacity onPress={toggleMenu}>
-                            <Image
-                                style={{marginLeft: 20}}
-                                source={iconMenuVertical}
-                                /> 
+                            <View>
+                                <IconSimple
+                                    name="options-vertical"
+                                    style={{ fontSize: 24, marginLeft: 12 }}
+                                ></IconSimple>
+                            </View>
                         </TouchableOpacity>
                     </>
-                ):(
+                ) : (
                     null
                 )}
-                    
-                
+
+
             </View>
             <PopUpMenu isVisible={isMenuVisible} onClose={toggleMenu} />
         </View>
@@ -61,13 +70,13 @@ const TopButtons = (props) => {
 
 export default TopButtons;
 
-const styles = StyleSheet.create ({
+const styles = StyleSheet.create({
     buttons: {
         position: 'absolute',
         top: '8%',
-        flexDirection: 'row', 
-        width: '85%', 
-        justifyContent: 'space-between', 
+        flexDirection: 'row',
+        width: '85%',
+        justifyContent: 'space-between',
     }
-    
+
 })

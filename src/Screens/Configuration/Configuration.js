@@ -49,7 +49,7 @@ export default function ConfigScreen({ navigation }) {
                 style={{ fontSize: 24, marginRight: 12 }} />
               <Text>Notificaciones</Text>
             </View>
-            <Text style={styles.mode}>Proximamente</Text>
+            <Text style={styles.mode}>Próximamente</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.option}>
             <View style={styles.nameIcon}>
@@ -58,7 +58,7 @@ export default function ConfigScreen({ navigation }) {
                 style={{ fontSize: 24, marginRight: 12 }} />
               <Text>Idioma</Text>
             </View>
-            <Text style={styles.mode}>Proximamente</Text>
+            <Text style={styles.mode}>Próximamente</Text>
           </TouchableOpacity>
         </View>
 
@@ -70,7 +70,7 @@ export default function ConfigScreen({ navigation }) {
                 style={{ fontSize: 24, marginRight: 12 }} />
               <Text>Seguridad</Text>
             </View>
-            <Text style={styles.mode}>Proximamente</Text>
+            <Text style={styles.mode}>Próximamente</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.option}>
             <View style={styles.nameIcon}>
@@ -79,7 +79,7 @@ export default function ConfigScreen({ navigation }) {
                 style={{ fontSize: 24, marginRight: 12 }} />
               <Text>Tema</Text>
             </View>
-            <Text style={styles.mode}>Proximamente</Text>
+            <Text style={styles.mode}>Próximamente</Text>
           </TouchableOpacity>
         </View>
 
@@ -91,16 +91,16 @@ export default function ConfigScreen({ navigation }) {
                 style={{ fontSize: 24, marginRight: 12 }} />
               <Text>Ayuda y soporte</Text>
             </View>
-            <Text style={styles.mode}>Proximamente</Text>
+            <Text style={styles.mode}>Próximamente</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.option}>
             <View style={styles.nameIcon}>
               <Icon
                 name="message-text-outline"
                 style={{ fontSize: 24, marginRight: 12 }} />
-              <Text>Contactanos</Text>
+              <Text>Contáctanos</Text>
             </View>
-            <Text style={styles.mode}>Proximamente</Text>
+            <Text style={styles.mode}>Próximamente</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.option} onPress={() => { navigation.navigate('ChangePasswordLoggedIn') }}>
             <View style={styles.nameIcon}>

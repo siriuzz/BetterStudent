@@ -10,6 +10,7 @@ const COLORS = {
     darkBlue: '#041646',
     red: 'red',
     lightBlue: '#C2D2FF',
+    gold: '#C08708',
 };
 
 export default COLORS;
