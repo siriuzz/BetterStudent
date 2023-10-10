@@ -28,6 +28,12 @@ const handleClearHistory = () => {
   setSearchHistory([]);
 };
 
+//como deberia ser el filtro en teoria
+//const filteredResults = items.filter((item) =>
+      //item.toLowerCase().includes(query.toLowerCase())
+    //);
+
+
 
 const Sbar = () => {
   const [searchQuery, setSearchQuery] = React.useState('');
