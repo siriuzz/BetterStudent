@@ -11,51 +11,51 @@ import {
   StyleSheet
 } from "react-native";
 import Button from "../../components/Button";
-import COLORS from "../../conts/colors";
+import COLORS from "../../constants/colors";
 import { GlobalStyles } from "../GlobalStyles";
 import edit from "../../../assets/icon-edit.png";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-export default function ConfigScreen({navigation}){
-  return(
-    <SafeAreaView 
+export default function ConfigScreen({ navigation }) {
+  return (
+    <SafeAreaView
       style={{
-        flex:1,
+        flex: 1,
         backgroundColor: COLORS.white,
         paddingTop: '18%',
       }}>
       <ScrollView
         contentContainerStyle={{
-        alignItems: 'flex-start',
-        paddingHorizontal: 20,
+          alignItems: 'flex-start',
+          paddingHorizontal: 20,
         }}
       >
         <Text style={GlobalStyles.title}>Configuración</Text>
 
         <View style={styles.section}>
-          <TouchableOpacity style={styles.option} onPress={() => {navigation.navigate('Home')}}>
+          <TouchableOpacity style={styles.option} onPress={() => { navigation.navigate('Home') }}>
             <View style={styles.nameIcon}>
-              <Icon 
+              <Icon
                 name="newspaper-variant-outline"
-                style={{fontSize: 24, marginRight: 12}}/>
+                style={{ fontSize: 24, marginRight: 12 }} />
               <Text>Foto de perfil</Text>
             </View>
             {/*<Text style={styles.mode}></Text>*/}
           </TouchableOpacity>
           <TouchableOpacity style={styles.option}>
             <View style={styles.nameIcon}>
-              <Icon 
+              <Icon
                 name="bell-outline"
-                style={{fontSize: 24, marginRight: 12}}/>
+                style={{ fontSize: 24, marginRight: 12 }} />
               <Text>Notificaciones</Text>
             </View>
             <Text style={styles.mode}>Proximamente</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.option}>
             <View style={styles.nameIcon}>
-              <Icon 
+              <Icon
                 name="alphabetical"
-                style={{fontSize: 24, marginRight: 12}}/>
+                style={{ fontSize: 24, marginRight: 12 }} />
               <Text>Idioma</Text>
             </View>
             <Text style={styles.mode}>Proximamente</Text>
@@ -65,18 +65,18 @@ export default function ConfigScreen({navigation}){
         <View style={styles.section}>
           <TouchableOpacity style={styles.option}>
             <View style={styles.nameIcon}>
-              <Icon 
+              <Icon
                 name="security"
-                style={{fontSize: 24, marginRight: 12}}/>
+                style={{ fontSize: 24, marginRight: 12 }} />
               <Text>Seguridad</Text>
             </View>
             <Text style={styles.mode}>Proximamente</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.option}>
             <View style={styles.nameIcon}>
-              <Icon 
+              <Icon
                 name="theme-light-dark"
-                style={{fontSize: 24, marginRight: 12}}/>
+                style={{ fontSize: 24, marginRight: 12 }} />
               <Text>Tema</Text>
             </View>
             <Text style={styles.mode}>Proximamente</Text>
@@ -86,27 +86,27 @@ export default function ConfigScreen({navigation}){
         <View style={styles.section}>
           <TouchableOpacity style={styles.option}>
             <View style={styles.nameIcon}>
-              <Icon 
+              <Icon
                 name="account-question-outline"
-                style={{fontSize: 24, marginRight: 12}}/>
+                style={{ fontSize: 24, marginRight: 12 }} />
               <Text>Ayuda y soporte</Text>
             </View>
             <Text style={styles.mode}>Proximamente</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.option}>
             <View style={styles.nameIcon}>
-              <Icon 
+              <Icon
                 name="message-text-outline"
-                style={{fontSize: 24, marginRight: 12}}/>
+                style={{ fontSize: 24, marginRight: 12 }} />
               <Text>Contactanos</Text>
             </View>
             <Text style={styles.mode}>Proximamente</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.option} onPress={() => {navigation.navigate('ChangePasswordLoggedIn')}}>
+          <TouchableOpacity style={styles.option} onPress={() => { navigation.navigate('ChangePasswordLoggedIn') }}>
             <View style={styles.nameIcon}>
-              <Icon 
+              <Icon
                 name="lock-outline"
-                style={{fontSize: 24, marginRight: 12}}/>
+                style={{ fontSize: 24, marginRight: 12 }} />
               <Text>Cambiar contraseña</Text>
             </View>
             {/*<Text style={styles.mode}></Text>*/}
@@ -117,9 +117,9 @@ export default function ConfigScreen({navigation}){
   )
 }
 
-const styles = StyleSheet.create ({
+const styles = StyleSheet.create({
   title: {
-    fontSize: 30, 
+    fontSize: 30,
     fontWeight: 'bold',
   },
   section: {

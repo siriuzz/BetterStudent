@@ -27,15 +27,23 @@ export default function FriendScreen({ navigation }) {
         <Text style={GlobalStyles.title}>Amigos</Text>
         <SearchBar data={[]} />
         <ScrollView>
-          <FriendListItem image={'../../../assets/Logo.png'} name={"Juan"} major={'ing'} rating={3} />
-          <FriendListItem image={'../../../assets/Logo.png'} name={"Juan"} major={'ing'} rating={3} />
-          <FriendListItem image={'../../../assets/Logo.png'} name={"Juan"} major={'ing'} rating={3} />
-          <FriendListItem image={'../../../assets/Logo.png'} name={"Juan"} major={'ing'} rating={3} />
-          <FriendListItem image={'../../../assets/Logo.png'} name={"Juan"} major={'ing'} rating={3} />
+          <View style={{ width: '100%', alignItems: 'center' }}>
+            <FriendListItem image={'../../../assets/Logo.png'} name={"Juan"} major={'ing'} />
+            <FriendListItem image={'../../../assets/Logo.png'} name={"Juan"} major={'ing'} />
+            <FriendListItem image={'../../../assets/Logo.png'} name={"Juan"} major={'ing'} />
+            <FriendListItem image={'../../../assets/Logo.png'} name={"Juan"} major={'ing'} />
+            <FriendListItem image={'../../../assets/splash.png'} name={"Juan"} major={'ing'} />
+            <FriendListItem image={'../../../assets/Logo.png'} name={"Juan"} major={'ing'} />
+            <FriendListItem image={'../../../assets/Logo.png'} name={"Juan"} major={'ing'} />
+            <FriendListItem image={'../../../assets/Logo.png'} name={"Juan"} major={'ing'} />
+            <FriendListItem image={'../../../assets/Logo.png'} name={"Juan"} major={'ing'} />
+            <FriendListItem image={'../../../assets/Logo.png'} name={"Juan"} major={'ing'} />
+            <FriendListItem image={'../../../assets/Logo.png'} name={"Juan"} major={'ing'} />
+          </View>
 
         </ScrollView>
       </View>
 
-    </SafeAreaView>
+    </SafeAreaView >
   )
 }

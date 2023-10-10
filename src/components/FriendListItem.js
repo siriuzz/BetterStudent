@@ -4,8 +4,8 @@ import { useState } from "react";
 import COLORS from "../constants/colors";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';;
 
-export default function FriendListItem({ image, name, major, rating }) {
-    const [isFollowing, setIsFollowing] = useState(false);
+export default function FriendListItem({ image, name, major }) {
+    const [isFollowing, setIsFollowing] = useState(true);
 
     const handleFollowToggle = () => {
         // Toggle the following state
@@ -17,7 +17,7 @@ export default function FriendListItem({ image, name, major, rating }) {
         <View style={style.container}>
 
             <View style={style.imageContainer}>
-                <Image source={image} style={style.image} />
+                <Image source={'../../../assets/Logo.png'} style={style.image} />
             </View>
             <View style={style.infoContainer}>
                 <Text style={style.name}>{name}</Text>
@@ -40,11 +40,12 @@ export default function FriendListItem({ image, name, major, rating }) {
 
 const style = StyleSheet.create({
     container: {
-        width: '100%',
+        width: '98%',
         height: 80,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-around',
+        elevation: 2,
         backgroundColor: COLORS.white,
         borderRadius: 10,
         marginBottom: 10,

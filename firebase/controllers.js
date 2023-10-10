@@ -1,6 +1,7 @@
 const { collection, addDoc, doc, getDoc, deleteDoc, setDoc, getDocs, query, where } = require('firebase/firestore');
 const models = require('./models');
-const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } = require('firebase/auth');
+const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } = require('firebase/auth');
+const { getStorage, ref, uploadString, getDownloadURL } = require('firebase/storage');
 
 class UserController {
     constructor(database, auth) {
@@ -25,6 +26,33 @@ class UserController {
             return error;
         }
     }
+
+    async signOutUser() {
+        try {
+            await signOut(this.auth);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async uploadUserProfileImage(userId, imageBase64) {
+        try {
+            const storage = getStorage();
+            // Create a reference to the storage location where you want to store the image
+            const storageRef = ref(storage, `user_profile_images/${userId}.jpg`);
+
+            // Upload the image as a base64 string (you can also use Blob or File)
+            await uploadString(storageRef, imageBase64, 'base64');
+
+            // Get the download URL of the uploaded image
+            const imageUrl = await getDownloadURL(storageRef);
+
+            return imageUrl; // This URL can be saved in the user's authentication profile
+        } catch (error) {
+            console.error('Error uploading image:', error);
+            throw error;
+        }
+    };
 }
 
 class StudentController {
@@ -89,11 +117,23 @@ class StudentController {
                 // Signed in
                 const user = userCredential.user;
                 console.log(user);
-                const newStudent = new models.Student(student.name, student.email, student.phone_number, undefined, undefined, student.career_id);
+                updateProfile(user, {
+                    displayName: student.name,
+                    photoURL: undefined
+                })
+                    .then(() => {
+                        // Display name set successfully
+                        console.log("Display name set successfully");
+                    })
+                    .catch((error) => {
+                        // An error occurred while setting the display name
+                        console.error("Error setting display name:", error);
+                    });
+                console.log(user);
+                const newStudent = new models.Student(student.name, student.email, student.phone_number, student.info, student.rating, student.career_id);
                 // console.log(newStudent);
                 const docRef = addDoc(collection(this.db, 'students'), newStudent.toObject());
                 return docRef;
-                // ...
             }).catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
@@ -124,23 +164,6 @@ class StudentController {
             throw error;
         }
     }
-
-    // async signInStudent(email, password) {
-    //     console.log(email, password);
-    //     signInWithEmailAndPassword(this.auth, email, password).then((userCredential) => {
-    //         // Signed in
-    //         const user = userCredential.user;
-    //         // console.log(user);
-    //         return user;
-    //         // ...
-    //     }).catch((error) => {
-    //         const errorCode = error.code;
-    //         const errorMessage = error.message;
-    //         console.log(errorCode);
-    //         console.log(errorMessage);
-    //         // ..
-    //     });
-    // };
 }
 
 class AdminController {

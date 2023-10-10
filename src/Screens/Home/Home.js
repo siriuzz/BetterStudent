@@ -57,7 +57,7 @@ const Home = ({ navigation }) => {
                 enableTopRightIcons={true}
             />
 
-            <Text style={{ fontSize: 22, fontWeight: 'bold' }}>{userDetails.fullName}</Text>
+            <Text style={{ fontSize: 22, fontWeight: 'bold' }}>{userDetails.name}</Text>
             <Text style={{ fontSize: 14, fontWeight: 'regular' }}>{userDetails.email}</Text>
             <StarRating
                 stars={userDetails.rating}
