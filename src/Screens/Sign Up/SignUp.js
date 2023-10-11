@@ -128,7 +128,7 @@ const SignUp = ({ navigation }) => {
             marginBottom: 10,
           }}
         >
-          Registrate
+          Regístrate
         </Text>
         <View style={{ marginVertical: 10, marginTop: 1 }}>
           <Input

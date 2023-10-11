@@ -7,7 +7,10 @@ const swaggerDocument = require('./swagger-output.json');
 
 //routes
 const studentsRoutes = require('./api/students');
-const loginRoutes = require('./api/auth/login');
+const userRoutes = require('./api/user');
+const careerRoutes = require('./api/careers');
+const reviewRoutes = require('./api/reviews');
+const friendsRoutes = require('./api/friends');
 
 require('dotenv').config();
 
@@ -18,7 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use('/api', router);
-router.use('/', studentsRoutes, loginRoutes);
+router.use('/', studentsRoutes, userRoutes, careerRoutes, reviewRoutes, friendsRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.listen(port, () => {

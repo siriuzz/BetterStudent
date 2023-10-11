@@ -1,5 +1,5 @@
 class User {
-    constructor(name, email, phone_number, password) {
+    constructor(name, email, phone_number) {
         this.name = name;
         this.email = email;
         this.phone_number = phone_number;
@@ -41,9 +41,16 @@ class Admin extends User {
 }
 
 class Career {
-    constructor(name) {
+    constructor(name, faculty) {
         this.name = name;
         this.faculty = faculty;
+    }
+
+    toObject() {
+        return {
+            name: this.name,
+            faculty: this.faculty,
+        };
     }
 }
 
@@ -82,6 +89,13 @@ class Friend {
     constructor(student_id, friend_id) {
         this.student_id = student_id;
         this.friend_id = friend_id;
+    }
+
+    toObject() {
+        return {
+            student_id: this.student_id,
+            friend_id: this.friend_id,
+        };
     }
 }
 

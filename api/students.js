@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const controllers = require('../firebase/dependency-injection');
-const bcrypt = require('bcrypt');
 
 router.get('/Students', async (req, res) => {
     /*#swagger.tags = ['Students']*/
@@ -16,14 +15,40 @@ router.get('/Students', async (req, res) => {
         schema: { $ref: "#/components/schemas/Student" }
     }
     */
-    await controllers.StudentController.addStudent(req.body);
-    // bcrypt.genSalt(10, function (err, salt) {
-    //     bcrypt.hash(req.body.password, salt, async function (err, hash) {
-    //         req.body.password = hash;
-    //         // const student = await firebase.addDocumentToCollection('students', req.body);
-    //         res.json({ message: "The student has been created" }).status(200);
-    //     });
+
+    // const estudiantes = [
+    //     {
+    //         "name": "María Pérez",
+    //         "email": "maria.perez@example.com",
+    //         "phone_number": "1234567891",
+    //         "info": "Información sobre María Pérez",
+    //         "rating": 5,
+    //         "career_id": "DwWfXgEhAB1s8ESwF8RC",
+    //         "password": "prueba"
+    //     },
+    //     {
+    //         "name": "Juan Martínez",
+    //         "email": "juan.martinez@example.com",
+    //         "phone_number": "1234567892",
+    //         "info": "Información sobre Juan Martínez",
+    //         "rating": 5,
+    //         "career_id": "dOYSwg9Mk3VUnN1kpmhA",
+    //         "password": "prueba"
+    //     },
+    //     {
+    //         "name": "Luisa Rodríguez",
+    //         "email": "luisa.rodriguez@example.com",
+    //         "phone_number": "1234567893",
+    //         "info": "Información sobre Luisa Rodríguez",
+    //         "rating": 5,
+    //         "career_id": "zShbOdjKP5PkbZ98a5eu",
+    //         "password": "prueba"
+    //     }
+    // ];
+    // estudiantes.forEach(async (estudiante) => {
+    //     await controllers.StudentController.addStudent(estudiante);
     // });
+    await controllers.StudentController.addStudent(req.body);
     res.json({ message: "The student has been created" }).status(200);
 });
 
@@ -47,24 +72,6 @@ router.get('/Students/:id', async (req, res) => {
     /*#swagger.tags = ['Students']*/
     await controllers.StudentController.deleteStudent(req.params.id);
     res.json({ message: "The student has been deleted" }).status(200);
-});
-
-//reviews
-router.get('/Students/:id/Reviews', async (req, res) => {
-    /*#swagger.tags = ['Students']*/
-    const reviews = await controllers.StudentController.getReviewsByStudentId(req.params.id);
-    res.json(reviews).status(200);
-}).post('/Students/:id/Reviews', async (req, res) => {
-    /*#swagger.tags = ['Students']*/
-    /*#swagger.responses[200] = {
-        schema: { $ref: "#/components/schemas/Review" }
-    }
-    #swagger.requestBody = {
-        schema: { $ref: "#/components/schemas/Review" }
-    }
-    */
-    await controllers.StudentController.addReview(req.params.id, req.body);
-    res.json({ message: "The review has been created" }).status(200);
 });
 
 module.exports = router;

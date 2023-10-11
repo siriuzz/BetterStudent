@@ -51,7 +51,7 @@ const Login = ({ navigation }) => {
       email: inputs.email,
       password: inputs.password,
     }).then((response) => {
-      console.log(response);
+      // console.log(response);
       if (response.data.email !== undefined) {
         // console.log(response.data);
         AsyncStorage.setItem(

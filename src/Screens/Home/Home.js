@@ -16,17 +16,32 @@ import COLORS from "../../constants/colors";
 import Info from "../../components/Info";
 import Input from "../../components/Input";
 import StarRating from "../../components/StarRating";
-import TopButtons from "../../components/TobButtons"
+import TopButtons from "../../components/TobButtons";
+import axios from "axios";
 
 const Home = ({ navigation }) => {
     const [userDetails, setUserDetails] = React.useState({});
+    const [reviews, setReviews] = React.useState([]);
+    const [info, setInfo] = React.useState("");
+
     React.useEffect(() => {
+        async function getReviews() {
+            const user = await AsyncStorage.getItem('user');
+            const userId = JSON.parse(user).id;
+            const info = await axios.get(`${process.env.EXPO_PUBLIC_EXPRESS_FORWARDED_URL}/api/Students/${userId}`);
+
+            setInfo(info.data.info);
+            const reviews = await axios.get(`${process.env.EXPO_PUBLIC_EXPRESS_FORWARDED_URL}/api/Students/${userId}/Reviews`);
+            // console.log(reviews.data);
+            setReviews(reviews.data);
+        }
+        getReviews();
         getUserDetails();
     }, []);
 
     const getUserDetails = async () => {
         const userData = await AsyncStorage.getItem('user');
-        console.log(userData);
+        // console.log(userData);
         if (userData) {
             setUserDetails(JSON.parse(userData));
         }
@@ -66,18 +81,51 @@ const Home = ({ navigation }) => {
             <ScrollView
                 contentContainerStyle={{
                     alignItems: 'flex-start',
+                }}
+                style={{
                     paddingHorizontal: 20,
-
+                    width: '100%',
                 }}
             >
                 <Info
-                    title='Estudiante de'
-                    text='Ingenieria de software' />
+                    text={info} />
+                <Text style={{ fontSize: 22, fontWeight: 'bold', alignSelf: 'flex-start' }}>Reviews</Text>
+                <FlatList
+                    data={reviews}
+                    style={{
+                        width: '100%',
+                        paddingTop: 10,
+                        alignContent: 'center',
+                    }}
+                    renderItem={({ item }) => (
+                        <View style={{
+                            width: '99%',
+                            borderRadius: 9,
+                            backgroundColor: 'white',
+                            elevation: 2,
+                            marginBottom: 16,
+                            marginHorizontal: 1,
+                        }}>
+                            <Text style={{
+                                margin: 10,
+                                fontWeight: '300',
+                                fontStyle: 'italic',
+                                fontSize: 14,
+                            }}>
+                                <Text style={{
+                                    fontWeight: 'bold',
+                                    fontStyle: 'italic',
+                                    fontSize: 20,
+                                }}>{item.title}</Text> <StarRating stars={item.rating} />
 
-                <Info
-                    title='Caracteristicas a destacar'
-                    text='Lider innato, QSY profesional, programador pro premium, Lider innato, QSY profesional, programador pro premium, Lider innato, QSY profesional, programador pro premium, Lider innato, QSY profesional, programador pro premium' />
+                                <Text>{"\n" + item.comment}</Text>
 
+
+                            </Text>
+                        </View >
+                    )}
+                    keyExtractor={item => item.id}
+                />
 
                 {/*<Button title="Logout" onPress={() => {navigation.navigate('LeaderBoard')}}/>*/}
 

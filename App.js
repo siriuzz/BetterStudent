@@ -11,7 +11,7 @@ import { PaperProvider } from 'react-native-paper';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ConfigScreen from "./src/Screens/Configuration/Configuration";
 //dependencia npm install @react-navigation/bottom-tabs
-import FriendScreen from "./src/Screens/Friends/Friends";
+import FriendScreen from "./src/Screens/Friends/Friends.js";
 import SearchScreen from "./src/Screens/Searcher/Searcher";
 import SubjectScreen from "./src/Screens/Subjects/Subjects";
 import LeaderBoard from "./src/Screens/LeaderBoard/LeaderBoard";
