@@ -7,7 +7,6 @@ import {
     FlatList,
     StyleSheet,
     Text,
-    StatusBar,
     ScrollView,
 } from 'react-native';
 import Avatar from "../../components/Avatar";
