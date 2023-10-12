@@ -14,7 +14,6 @@ import Button from "../../components/Button";
 import Avatar from "../../components/Avatar";
 import COLORS from "../../constants/colors";
 import Info from "../../components/Info";
-import Input from "../../components/Input";
 import StarRating from "../../components/StarRating";
 import TopButtons from "../../components/TopButtons";
 import axios from "axios";
