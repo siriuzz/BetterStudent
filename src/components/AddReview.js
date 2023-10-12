@@ -60,6 +60,7 @@ export default function AddReviewButton({ friend_id }) {
     );
 }
 
+//constante para agregar reviews de estudiantes, basicamente se encarga del diseño
 const style = StyleSheet.create({
     addReviewButton: {
         backgroundColor: COLORS.navyBlue,
