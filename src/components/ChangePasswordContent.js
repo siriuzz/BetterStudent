@@ -11,7 +11,7 @@ import {
   Image
 } from "react-native";
 import COLORS from "../constants/colors";
-import TopButtons from "./TobButtons";
+import TopButtons from "./TopButtons";
 import Logo from "../../assets/Logo.png";
 import Input from "./Input";
 import Button from "./Button";

@@ -12,6 +12,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ConfigScreen from "./src/Screens/Configuration/Configuration";
 //dependencia npm install @react-navigation/bottom-tabs
 import FriendScreen from "./src/Screens/Friends/Friends.js";
+import FriendProfile from "./src/Screens/FriendProfile/FriendProfile";
 import SearchScreen from "./src/Screens/Searcher/Searcher";
 import SubjectScreen from "./src/Screens/Subjects/Subjects";
 import LeaderBoard from "./src/Screens/LeaderBoard/LeaderBoard";
@@ -19,6 +20,7 @@ import ChangePasswordLoggedIn from "./src/Screens/ChangePasswordLoggedIn/ChangeP
 import { Ionicons } from '@expo/vector-icons';
 import { height } from "@mui/system";
 import COLORS from "./src/constants/colors";
+import { useNavigation } from "@react-navigation/native";
 
 const homeName = "Home"
 const ConfigurationName = 'Configuracion'
@@ -39,6 +41,8 @@ function TabIcon({ icon, focusedIcon, focused }) {
 }
 
 const TabNavigator = () => {
+  const navigation = useNavigation();
+
   return (
     <Tab.Navigator options={{
       // tabBarActiveTintColor: "#C08708",
@@ -139,6 +143,7 @@ function StackNavigator() {
       <Stack.Screen name="Home" component={TabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="LeaderBoard" component={LeaderBoard} options={{ headerShown: false }} />
       <Stack.Screen name="ChangePasswordLoggedIn" component={ChangePasswordLoggedIn} options={{ headerShown: false }} />
+      <Stack.Screen name="FriendProfile" component={FriendProfile} options={{ headerShown: false }} />
 
     </Stack.Navigator>
 

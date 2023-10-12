@@ -260,6 +260,40 @@ class StudentController {
             throw error;
         }
     }
+
+    async calculateRating(id) {
+        try {
+            const q = query(collection(this.db, 'students', id, 'reviews'));
+            const querySnap = await getDocs(q);
+            const documents = [];
+            querySnap.forEach((doc) => {
+                // console.log(doc.data);
+                documents.push(doc.data());
+            });
+            // console.log(documents);
+            let rating = 0;
+            documents.forEach((review) => {
+                rating += review.rating;
+            });
+            rating /= documents.length;
+
+            const docRef = doc(this.db, 'students', id);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                const student = docSnap.data();
+                await setDoc(docRef, { ...student, rating: rating });
+            } else {
+                console.log('No such document!');
+                return null;
+            }
+
+            // console.log(rating);
+            return rating;
+        } catch (error) {
+            console.error('Error getting documents:', error);
+            throw error;
+        }
+    }
 }
 
 class AdminController {

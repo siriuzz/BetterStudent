@@ -4,7 +4,7 @@ import user from '../../assets/icon-user.png';
 import edit from '../../assets/icon-edit.png'
 import COLORS from "../constants/colors";
 import * as ImagePicker from 'expo-image-picker';
-import TopButtons from './TobButtons';
+import TopButtons from './TopButtons';
 
 const Avatar = (props) => {
     const colorShape = {

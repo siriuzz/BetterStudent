@@ -16,11 +16,18 @@ import FriendListItem from "../../components/FriendListItem";
 import SearchBar from "../../components/SearchBar";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from '@react-navigation/native';
+import Loader from "../../components/Loader";
 
-export default function FriendScreen({ navigation }) {
+
+
+export default function FriendScreen() {
+  const navigation = useNavigation();
   const [friends, setFriends] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
+    setLoading(true);
     async function getFriends() {
       const user = await AsyncStorage.getItem("user");
       const userId = JSON.parse(user).id;
@@ -28,6 +35,7 @@ export default function FriendScreen({ navigation }) {
         `${process.env.EXPO_PUBLIC_EXPRESS_FORWARDED_URL}/api/Students/${userId}/Friends`
       ).then((res) => {
         console.log(res.data);
+        setLoading(false);
         setFriends(res.data);
       }).catch((err) => {
         console.log("Este es el error ", err);
@@ -35,6 +43,7 @@ export default function FriendScreen({ navigation }) {
     }
     getFriends();
   }, []);
+
   return (
     <SafeAreaView style={{
       flex: 1,
@@ -45,6 +54,7 @@ export default function FriendScreen({ navigation }) {
       <View style={{ width: '100%', alignItems: 'flex-start', paddingHorizontal: 20 }}>
         <Text style={GlobalStyles.title}>Amigos</Text>
         <SearchBar data={[]} />
+        <Loader visible={loading} />
         <ScrollView>
           <View style={{ width: '100%', alignItems: 'center', paddingTop: 10, paddingBottom: 20 }}>
             {friends.map((friend) => {
@@ -55,11 +65,7 @@ export default function FriendScreen({ navigation }) {
                   image={friend.image}
                   name={friend.name}
                   major={friend.career.name}
-                  onPress={() => {
-                    navigation.navigate("FriendProfile", {
-                      friendId: friend.id,
-                    });
-                  }}
+                // navigation={navigation}
                 />
               );
             })}

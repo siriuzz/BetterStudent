@@ -3,6 +3,7 @@ import { Image, TouchableOpacity, View, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import IconEntypo from 'react-native-vector-icons/Entypo';
 import IconSimple from 'react-native-vector-icons/SimpleLineIcons';
+import IonIcon from 'react-native-vector-icons/Ionicons';
 
 import iconBack from '../../assets/icon-back.png';
 import iconMenuVertical from '../../assets/icon-menu-vertical.png';
@@ -22,14 +23,14 @@ const TopButtons = (props) => {
         setMenuVisible(!isMenuVisible);
     };
 
+
+
     return (
         <View style={styles.buttons}>
             <View style={{ alignItems: 'flex-start' }}>
                 {props.enableGoBack === true ? (
                     <TouchableOpacity onPress={goBack}>
-                        <Image
-                            source={goBack}
-                        />
+                        <IonIcon name="arrow-back" style={{ fontSize: 30 }} />
                     </TouchableOpacity>
                 ) : (
                     null
@@ -64,7 +65,7 @@ const TopButtons = (props) => {
 
             </View>
             <PopUpMenu isVisible={isMenuVisible} onClose={toggleMenu} />
-        </View>
+        </View >
     )
 }
 

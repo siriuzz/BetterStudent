@@ -74,4 +74,16 @@ router.get('/Students/:id', async (req, res) => {
     res.json({ message: "The student has been deleted" }).status(200);
 });
 
+router.patch('/Students/:id/calculate-rating', async (req, res) => {
+    /*#swagger.tags = ['Students']*/
+    /*#swagger.params['id'] = {
+        in: 'path',
+        description: 'Student ID',
+        required: true,
+        type: 'string'
+    }*/
+    const student = await controllers.StudentController.calculateRating(req.params.id);
+    res.json(student).status(200);
+});
+
 module.exports = router;

@@ -16,7 +16,7 @@ import COLORS from "../../constants/colors";
 import Info from "../../components/Info";
 import Input from "../../components/Input";
 import StarRating from "../../components/StarRating";
-import TopButtons from "../../components/TobButtons";
+import TopButtons from "../../components/TopButtons";
 import axios from "axios";
 
 const Home = ({ navigation }) => {
@@ -30,18 +30,19 @@ const Home = ({ navigation }) => {
             const userId = JSON.parse(user).id;
             const info = await axios.get(`${process.env.EXPO_PUBLIC_EXPRESS_FORWARDED_URL}/api/Students/${userId}`);
 
-            setInfo(info.data.info);
+            setInfo(JSON.parse(user).info);
             const reviews = await axios.get(`${process.env.EXPO_PUBLIC_EXPRESS_FORWARDED_URL}/api/Students/${userId}/Reviews`);
             // console.log(reviews.data);
             setReviews(reviews.data);
         }
         getReviews();
         getUserDetails();
+
     }, []);
 
     const getUserDetails = async () => {
         const userData = await AsyncStorage.getItem('user');
-        // console.log(userData);
+        // console.log("este es el user ", userData);
         if (userData) {
             setUserDetails(JSON.parse(userData));
         }
@@ -75,6 +76,8 @@ const Home = ({ navigation }) => {
 
             <Text style={{ fontSize: 22, fontWeight: 'bold' }}>{userDetails.name}</Text>
             <Text style={{ fontSize: 14, fontWeight: 'regular' }}>{userDetails.email}</Text>
+            <Text style={{ fontSize: 14, fontWeight: 'regular', marginTop: 10 }}>{userDetails.rating && parseFloat(userDetails.rating.toFixed(2))}/5</Text>
+
             <StarRating
                 stars={Math.floor(userDetails.rating)}
             />
@@ -88,9 +91,38 @@ const Home = ({ navigation }) => {
                 }}
             >
                 <Info
-                    text={info} />
+                    text={userDetails.info} />
                 <Text style={{ fontSize: 22, fontWeight: 'bold', alignSelf: 'flex-start' }}>Reviews</Text>
-                <FlatList
+                {reviews.map((review) => {
+                    return (
+                        <View key={review.comment + review.date} style={{
+                            width: '99%',
+                            borderRadius: 9,
+                            backgroundColor: 'white',
+                            elevation: 2,
+                            marginBottom: 16,
+                            marginHorizontal: 1,
+                        }}>
+                            <Text style={{
+                                margin: 10,
+                                fontWeight: '300',
+                                fontStyle: 'italic',
+                                fontSize: 14,
+                            }}>
+                                <Text style={{
+                                    fontWeight: 'bold',
+                                    fontStyle: 'italic',
+                                    fontSize: 20,
+                                }}>{review.title}</Text> <StarRating stars={review.rating} />
+
+                                <Text>{"\n" + review.comment}</Text>
+
+                            </Text>
+                        </View>
+                    )
+                })
+                }
+                {/* <FlatList
                     data={reviews}
                     style={{
                         width: '100%',
@@ -125,7 +157,7 @@ const Home = ({ navigation }) => {
                         </View >
                     )}
                     keyExtractor={item => item.id}
-                />
+                /> */}
 
                 {/*<Button title="Logout" onPress={() => {navigation.navigate('LeaderBoard')}}/>*/}
 

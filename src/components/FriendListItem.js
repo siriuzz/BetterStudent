@@ -6,55 +6,28 @@ import Logo from "../../assets/Logo.png";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import FriendProfile from "../Screens/FriendProfile/FriendProfile";
+import { useNavigation } from "@react-navigation/native";
+import FollowButton from "./FollowButton";
 
 export default function FriendListItem({ friend_id, image, name, major }) {
-    const [isFollowing, setIsFollowing] = useState(true);
+    const navigation = useNavigation();
 
-    const handleFollowToggle = () => {
-        // Toggle the following state
-        async function deleteFriend(friend_id) {
-            const user = await AsyncStorage.getItem('user');
-            const userId = JSON.parse(user).id;
-            // console.log(friend_id)
-            const result = await axios.delete(`${process.env.EXPO_PUBLIC_EXPRESS_FORWARDED_URL}/api/Students/${userId}/Friends/${friend_id}`);
-            console.log(result.data);
-        }
-
-        async function addFriend(friend_id) {
-            const user = await AsyncStorage.getItem('user');
-            const userId = JSON.parse(user).id;
-            // console.log(friend_id)
-            const result = await axios.post(`${process.env.EXPO_PUBLIC_EXPRESS_FORWARDED_URL}/api/Students/${userId}/Friends/${friend_id}`);
-            console.log(result.data);
-        }
-
-        if (!isFollowing) {
-            addFriend(friend_id);
-        } else {
-            deleteFriend(friend_id);
-        }
-        setIsFollowing(!isFollowing);
-    };
     return (
-        <View style={style.container}>
+        <View >
+            <TouchableOpacity style={style.container} onPress={() => { navigation.navigate("FriendProfile", { "friend_id": friend_id }) }}>
 
-            <View style={style.imageContainer}>
-                <Image source={Logo} style={style.image} />
-            </View>
-            <View style={style.infoContainer}>
-                <Text style={style.name}>{name}</Text>
-                <Text style={style.major}>{major}</Text>
-            </View>
-            {/* <View style={style.ratingContainer}>
+                <View style={style.imageContainer}>
+                    <Image source={Logo} style={style.image} />
+                </View>
+                <View style={style.infoContainer}>
+                    <Text style={style.name}>{name}</Text>
+                    <Text style={style.major}>{major}</Text>
+                </View>
+                {/* <View style={style.ratingContainer}>
                 <Text style={style.rating}>{rating}</Text>
             </View> */}
-            <TouchableOpacity
-                style={[style.followButton, isFollowing ? style.followingButton : null]}
-                onPress={handleFollowToggle}
-            >
-                <Text style={style.buttonText}>
-                    {isFollowing ? 'Following' : 'Follow'}
-                </Text>
+                <FollowButton friend_id={friend_id} />
             </TouchableOpacity>
         </View>
     );

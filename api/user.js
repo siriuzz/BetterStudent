@@ -12,13 +12,7 @@ router.post('/login', async (req, res) => {
     */
     const user = await controllers.UserController.signInUser(req.body.email, req.body.password);
     if (!user) return res.json({ message: "The email or password is incorrect" }).status(404);
-    else return res.json({
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        rating: user.rating,
-        career_id: user.career_id
-    }).status(200);
+    else return res.json(user).status(200);
     // if (!(student && admin)) return res.json({ message: "The email or password is incorrect" }).status(404);
 });
 router.patch('/change-password', async (req, res) => {

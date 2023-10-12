@@ -12,7 +12,7 @@ import {
   FlatList,
 } from "react-native";
 import Button from "../../components/Button";
-import TopButtons from "../../components/TobButtons"
+import TopButtons from "../../components/TopButtons"
 import COLORS from "../../constants/colors";
 import LeaderBoardPerson from "../../components/LeaderBoardPerson";
 import iconStar from "../../../assets/icon-star.png"
