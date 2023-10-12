@@ -35,13 +35,13 @@ jobs:
 
       - name: Test Firestore
         env:
-          API_KEY: ${{ secrets.API_KEY }}
-          APP_ID: ${{ secrets.APP_ID }}
-          AUTH_DOMAIN: ${{ secrets.AUTH_DOMAIN }}
-          MEASUREMENT_ID: ${{ secrets.MEASUREMENT_ID }}
-          MESSAGING_SENDER_ID: ${{ secrets.MESSAGING_SENDER_ID }}
-          PROJECT_ID: ${{ secrets.PROJECT_ID }}
-          STORAGE_BUCKET: ${{ secrets.STORAGE_BUCKET }}
+          EXPO_PUBLIC_API_KEY: ${{ secrets.API_KEY }}
+          EXPO_PUBLIC_APP_ID: ${{ secrets.APP_ID }}
+          EXPO_PUBLIC_AUTH_DOMAIN: ${{ secrets.AUTH_DOMAIN }}
+          EXPO_PUBLIC_MEASUREMENT_ID: ${{ secrets.MEASUREMENT_ID }}
+          EXPO_PUBLIC_MESSAGING_SENDER_ID: ${{ secrets.MESSAGING_SENDER_ID }}
+          EXPO_PUBLIC_PROJECT_ID: ${{ secrets.PROJECT_ID }}
+          EXPO_PUBLIC_STORAGE_BUCKET: ${{ secrets.STORAGE_BUCKET }}
         run: npm run test
 
       - name: Postman Tests
