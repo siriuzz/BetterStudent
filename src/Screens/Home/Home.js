@@ -93,7 +93,7 @@ const Home = ({ navigation }) => {
                 <Info // Información del usuario
                     text={userDetails.info} />
                 <Text style={{ fontSize: 22, fontWeight: 'bold', alignSelf: 'flex-start' }}>Reviews</Text>
-                {reviews.map((review) => {
+                {reviews.map((review) => { // Mapea las reviews del usuario
                     return (
                         <View key={review.comment + review.date} style={{
                             width: '99%',
