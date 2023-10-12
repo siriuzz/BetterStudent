@@ -113,7 +113,7 @@ const Home = ({ navigation }) => {
                                     fontWeight: 'bold',
                                     fontStyle: 'italic',
                                     fontSize: 20,
-                                }}>{review.title}</Text> <StarRating stars={review.rating} />
+                                }}>{review.title}</Text> <StarRating stars={review.rating} /> 
 
                                 <Text>{"\n" + review.comment}</Text>
 
@@ -165,14 +165,5 @@ const Home = ({ navigation }) => {
         </SafeAreaView>
     );
 };
-
-
-const styles = StyleSheet.create({
-    userContext: {
-        borderRadius: 5,
-        backgroundColor: 'white',
-        elevation: 5, // Añade sombra con una elevación de 5
-    }
-})
 
 export default Home;
