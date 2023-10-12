@@ -69,7 +69,7 @@ const Home = ({ navigation }) => {
             <Avatar // Avatar del usuario
                 enableEdit={true}
                 color={COLORS.yellow} />
-            <TopButtons
+            <TopButtons // Botones de la parte superior
                 enableGoBack={false}
                 enableTopRightIcons={true}
             />
