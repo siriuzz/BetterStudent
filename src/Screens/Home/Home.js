@@ -78,7 +78,7 @@ const Home = ({ navigation }) => {
             <Text style={{ fontSize: 14, fontWeight: 'regular' }}>{userDetails.email}</Text>
             <Text style={{ fontSize: 14, fontWeight: 'regular', marginTop: 10 }}>{userDetails.rating && parseFloat(userDetails.rating.toFixed(2))}/5</Text>
 
-            <StarRating
+            <StarRating // Estrellas de calificación
                 stars={Math.floor(userDetails.rating)}
             />
             <ScrollView
