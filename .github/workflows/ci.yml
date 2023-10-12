@@ -42,5 +42,9 @@ jobs:
           MESSAGING_SENDER_ID: ${{ secrets.MESSAGING_SENDER_ID }}
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
           STORAGE_BUCKET: ${{ secrets.STORAGE_BUCKET }}
-        run: |
-          npm run test
+        run: npm run test
+
+      - name: Postman Tests
+        uses: matt-ball/newman-action@master
+        with:
+          collection: postman_collection.json
