@@ -5,7 +5,6 @@ import {
     SafeAreaView,
     View,
     FlatList,
-    StyleSheet,
     Text,
     ScrollView,
 } from 'react-native';
