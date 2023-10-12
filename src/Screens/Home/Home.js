@@ -95,7 +95,7 @@ const Home = ({ navigation }) => {
                 <Text style={{ fontSize: 22, fontWeight: 'bold', alignSelf: 'flex-start' }}>Reviews</Text>
                 {reviews.map((review) => { // Mapea las reviews del usuario
                     return (
-                        <View key={review.comment + review.date} style={{
+                        <View key={review.comment + review.date} style={{ // Contenedor de cada review
                             width: '99%',
                             borderRadius: 9,
                             backgroundColor: 'white',
