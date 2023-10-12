@@ -19,8 +19,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from '@react-navigation/native';
 import Loader from "../../components/Loader";
 
-
-
 export default function FriendScreen() {
   const navigation = useNavigation();
   const [friends, setFriends] = React.useState([]);
@@ -38,7 +36,7 @@ export default function FriendScreen() {
         setLoading(false);
         setFriends(res.data);
       }).catch((err) => {
-        console.log("Este es el error ", err);
+        console.log("Este es el error: ", err);
       });
     }
     getFriends();
