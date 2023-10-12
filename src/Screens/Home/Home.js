@@ -81,7 +81,7 @@ const Home = ({ navigation }) => {
             <StarRating // Estrellas de calificación
                 stars={Math.floor(userDetails.rating)}
             />
-            <ScrollView
+            <ScrollView // Contenedor de la información del usuario
                 contentContainerStyle={{
                     alignItems: 'flex-start',
                 }}
