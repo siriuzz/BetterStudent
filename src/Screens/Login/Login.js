@@ -1,5 +1,7 @@
+/* eslint-disable prettier/prettier */
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React from "react";
+import axios from "axios";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -10,14 +12,12 @@ import {
   Image,
 } from "react-native";
 
+import Logo from "../../../assets/Logo.png";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
 import Loader from "../../components/Loader";
 import COLORS from "../../constants/colors";
-import Logo from "../../../assets/Logo.png";
-import axios from "axios";
-import { useEffect } from "react";
-import { useNavigation } from "@react-navigation/native";
+
 
 // import NavigationActions from "@react-navigation";
 
@@ -119,7 +119,8 @@ const Login = ({ navigation }) => {
   })
 
   return (
-    <SafeAreaView style={{ backgroundColor: COLORS.white, flex: 1 }}>
+    <SafeAreaView // Cambiar el color de fondo
+      style={{ backgroundColor: COLORS.white, flex: 1 }}>
       <Loader visible={loading} />
       <ScrollView
         contentContainerStyle={{
