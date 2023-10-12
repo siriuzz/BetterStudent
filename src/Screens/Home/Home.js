@@ -90,7 +90,7 @@ const Home = ({ navigation }) => {
                     width: '100%',
                 }}
             >
-                <Info
+                <Info // Información del usuario
                     text={userDetails.info} />
                 <Text style={{ fontSize: 22, fontWeight: 'bold', alignSelf: 'flex-start' }}>Reviews</Text>
                 {reviews.map((review) => {
