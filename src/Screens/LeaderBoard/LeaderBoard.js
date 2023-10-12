@@ -49,7 +49,7 @@ export default function LeaderBoard({ navigation }) {
         setUserDetails(userDetailsArray);
       }
     } catch (error) {
-      console.error('Error al obtener los detalles del usuario:', error);
+      console.error('Error al obtener los detalles del usuario:', error);//Manejador de Errores
     }
   };
 
