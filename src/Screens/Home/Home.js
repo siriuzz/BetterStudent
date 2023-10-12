@@ -112,7 +112,7 @@ const Home = ({ navigation }) => {
                                 <Text style={{
                                     fontWeight: 'bold',
                                     fontStyle: 'italic',
-                                    fontSize: 20,
+                                    fontSize: 19,
                                 }}>{review.title}</Text> <StarRating stars={review.rating} />
 
                                 <Text>{"\n" + review.comment}</Text>
@@ -163,7 +163,7 @@ const Home = ({ navigation }) => {
 
             </ScrollView>
 
-        </SafeAreaView>
+        </SafeAreaView> //Aqui termina el SafeAreaView
     );
 };
 
