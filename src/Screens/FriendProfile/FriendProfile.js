@@ -68,7 +68,7 @@ export default function FriendProfile({ navigation, route }) {
                 <AddReviewButton friend_id={friend_id} />
             </View>
 
-
+            {/* // Hacer que el scrollview sea funcional */}
             <ScrollView
 
                 contentContainerStyle={{
@@ -80,7 +80,7 @@ export default function FriendProfile({ navigation, route }) {
                 }}
             >
                 <Info
-                    text={friendDetails.info} />
+                    text={friendDetails.info} /> {/*Aqui va la info de los estudiantes, es decir los amigos de x estudiante*/}
                 <Text style={{ fontSize: 22, fontWeight: 'bold', alignSelf: 'flex-start' }}>Reviews</Text>
                 {reviews.map((review) => {
                     return (
