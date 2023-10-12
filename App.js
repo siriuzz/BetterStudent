@@ -8,17 +8,19 @@ import Home from './src/Screens/Home/Home';
 import Loader from './src/components/Loader';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { PaperProvider } from 'react-native-paper';
-//import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"; 
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ConfigScreen from "./src/Screens/Configuration/Configuration";
 //dependencia npm install @react-navigation/bottom-tabs
-import FriendScreen from "./src/Screens/Friends/Friends";
+import FriendScreen from "./src/Screens/Friends/Friends.js";
+import FriendProfile from "./src/Screens/FriendProfile/FriendProfile";
 import SearchScreen from "./src/Screens/Searcher/Searcher";
 import SubjectScreen from "./src/Screens/Subjects/Subjects";
 import LeaderBoard from "./src/Screens/LeaderBoard/LeaderBoard";
 import ChangePasswordLoggedIn from "./src/Screens/ChangePasswordLoggedIn/ChangePasswordLoggedIn";
 import { Ionicons } from '@expo/vector-icons';
 import { height } from "@mui/system";
+import COLORS from "./src/constants/colors";
+import { useNavigation } from "@react-navigation/native";
 
 const homeName = "Home"
 const ConfigurationName = 'Configuracion'
@@ -28,38 +30,54 @@ const SubjectName = 'Asignaturas'
 
 
 const Stack = createNativeStackNavigator();
-const Tab = createMaterialBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 
-
+function TabIcon({ icon, focusedIcon, focused }) {
+  return (
+    <View style={{ marginTop: 10 }}>
+      <Ionicons name={focused ? icon : focusedIcon} size={24} color={focused ? COLORS.gold : COLORS.navyBlue} />
+    </View>
+  )
+}
 
 const TabNavigator = () => {
+  const navigation = useNavigation();
+
   return (
-    <Tab.Navigator shifting={false} barStyle={{ height: 55, backgroundColor: "#FFFFFF" }} activeColor="#e91e63" >
+    <Tab.Navigator options={{
+      // tabBarActiveTintColor: "#C08708",
+
+    }}
+
+      barStyle={{ height: 65, backgroundColor: "#FFFFFF" }} activeColor="#ffffff">
       <Tab.Screen
         name={SubjectName}
         component={SubjectScreen}
         options={{
           tabBarIcon: ({ focused }) => {
             return (
-              <View>
-                <Ionicons name={focused ? "book" : "book-outline"} size={24} color={focused ? "#C08708" : "#002793"} />
-              </View>)
+              <TabIcon icon="book" focusedIcon="book-outline" focused={focused} />
+            )
           },
-          tabBarLabel: ""
+          headerShown: false,
 
-        }} />
+          tabBarLabel: "",
+          activeBackgroundColor: "#1fffff"
+
+        }}
+      />
       <Tab.Screen name={FriendName}
         component={FriendScreen}
         options={{
           tabBarIcon: (
             { focused }) => {
             return (
-              <View>
-                <Ionicons name={focused ? "person" : "person-outline"} size={24} color={focused ? "#C08708" : "#002793"} />
-              </View>
+              <TabIcon icon="person" focusedIcon="person-outline" focused={focused} />
             )
           },
-          tabBarLabel: ""
+          tabBarLabel: "",
+          headerShown: false,
+
         }} />
       <Tab.Screen
         name={homeName}
@@ -72,18 +90,20 @@ const TabNavigator = () => {
                   alignItems: "center",
                   justifyContent: "center",
                   backgroundColor: "#FFFFFF",
-                  width: Platform.OS == "ios" ? 50 : 35,
-                  height: Platform.OS == "ios" ? 50 : 35,
+                  width: 40,
+                  height: 40,
                   top: Platform.OS == "ios" ? -10 : -5,
                   borderRadius: Platform.OS == "ios" ? 25 : 10,
-                  elevation: 7,
+                  elevation: 6,
                 }}
               >
-                <Ionicons name={focused ? "home" : "home-outline"} size={24} color={focused ? "#C08708" : "#002793"} />
+                <Ionicons name={focused ? "home" : "home-outline"} size={28} color={focused ? "#C08708" : "#002793"} />
               </View>
             )
           },
-          tabBarLabel: ""
+          tabBarLabel: "",
+          headerShown: false,
+
         }} />
       <Tab.Screen
         name={SearchName}
@@ -91,12 +111,12 @@ const TabNavigator = () => {
         options={{
           tabBarIcon: ({ focused }) => {
             return (
-              <View>
-                <Ionicons name={focused ? "search" : "search-outline"} size={24} color={focused ? "#C08708" : "#002793"} />
-              </View>
+              <TabIcon icon="search" focusedIcon="search-outline" focused={focused} />
             )
           },
-          tabBarLabel: ""
+          tabBarLabel: "",
+          headerShown: false,
+
         }} />
       <Tab.Screen
         name={ConfigurationName}
@@ -104,12 +124,12 @@ const TabNavigator = () => {
         options={{
           tabBarIcon: ({ focused }) => {
             return (
-              <View>
-                <Ionicons name={focused ? "settings" : "settings-outline"} size={24} color={focused ? "#C08708" : "#002793"} />
-              </View>
+              <TabIcon icon="settings" focusedIcon="settings-outline" focused={focused} />
             )
           },
-          tabBarLabel: ""
+          tabBarLabel: "",
+          headerShown: false,
+
         }} />
     </Tab.Navigator>
   )
@@ -123,6 +143,7 @@ function StackNavigator() {
       <Stack.Screen name="Home" component={TabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="LeaderBoard" component={LeaderBoard} options={{ headerShown: false }} />
       <Stack.Screen name="ChangePasswordLoggedIn" component={ChangePasswordLoggedIn} options={{ headerShown: false }} />
+      <Stack.Screen name="FriendProfile" component={FriendProfile} options={{ headerShown: false }} />
 
     </Stack.Navigator>
 

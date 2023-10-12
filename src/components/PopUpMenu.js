@@ -3,6 +3,7 @@ import { Modal, View, TouchableOpacity, Text, StyleSheet, TouchableWithoutFeedba
 import { useNavigation } from '@react-navigation/native';
 import Login from '../Screens/Login/Login';
 import COLORS from '../constants/colors';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const PopUpMenu = ({ isVisible, onClose }) => {
   const navigation = useNavigation(); // Usa useNavigation para acceder a la navegación
@@ -22,7 +23,10 @@ const PopUpMenu = ({ isVisible, onClose }) => {
             <TouchableOpacity onPress={onClose}>
               <Text>Proximamente...</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+            <TouchableOpacity onPress={() => {
+              AsyncStorage.removeItem('user');
+              navigation.navigate('Login')
+            }}>
               <Text>Cerrar sesión</Text>
             </TouchableOpacity>
             {/* Agrega más elementos de menú según sea necesario */}

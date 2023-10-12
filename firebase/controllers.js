@@ -1,6 +1,7 @@
-const { collection, addDoc, doc, getDoc, deleteDoc, setDoc, getDocs, query, where } = require('firebase/firestore');
+const { collection, addDoc, doc, getDoc, deleteDoc, setDoc, getDocs, query, where, orderBy, startAt, endAt } = require('firebase/firestore');
 const models = require('./models');
-const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } = require('firebase/auth');
+const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, updatePassword } = require('firebase/auth');
+const { getStorage, ref, uploadString, getDownloadURL } = require('firebase/storage');
 
 class UserController {
     constructor(database, auth) {
@@ -10,8 +11,9 @@ class UserController {
 
     async signInUser(email, password) {
         try {
-            const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
+            await signInWithEmailAndPassword(this.auth, email, password);
             const student = await new StudentController(this.db, this.auth).getStudentByEmail(email);
+            // console.log("Este es el estudiante: ",);
             if (student) return student;
             const admin = await new AdminController(this.db, this.auth).getAdminByEmail(email);
             if (admin) return admin;
@@ -23,6 +25,45 @@ class UserController {
             console.log(errorCode);
             console.log(errorMessage);
             return error;
+        }
+    }
+
+    async signOutUser() {
+        try {
+            await signOut(this.auth);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async uploadUserProfileImage(userId, imageBase64) {
+        try {
+            const storage = getStorage();
+            // Create a reference to the storage location where you want to store the image
+            const storageRef = ref(storage, `user_profile_images/${userId}.jpg`);
+
+            // Upload the image as a base64 string (you can also use Blob or File)
+            await uploadString(storageRef, imageBase64, 'base64');
+
+            // Get the download URL of the uploaded image
+            const imageUrl = await getDownloadURL(storageRef);
+
+            return imageUrl; // This URL can be saved in the user's authentication profile
+        } catch (error) {
+            console.error('Error uploading image:', error);
+            throw error;
+        }
+    };
+
+    async changePassword(email, oldPassword, newPassword) {
+        try {
+            const userCredential = await signInWithEmailAndPassword(this.auth, email, oldPassword);
+            const user = userCredential.user;
+            await updatePassword(user, newPassword);
+            return user;
+        } catch (error) {
+            console.log(error);
+            throw error;
         }
     }
 }
@@ -70,7 +111,7 @@ class StudentController {
             const querySnap = await getDocs(q);
             if (querySnap.docs[0]) {
                 const data = querySnap.docs[0].data();
-                return data;
+                return { ...data, id: querySnap.docs[0].id };
             } else {
                 console.log('No such document!');
                 return null;
@@ -85,22 +126,18 @@ class StudentController {
         // const newStudent = new models.Student(student.name, student.email, student.phone_number, student.password, undefined, undefined, student.career_id);
         // console.log(newStudent);
         try {
-            createUserWithEmailAndPassword(this.auth, student.email, student.password).then((userCredential) => {
-                // Signed in
-                const user = userCredential.user;
-                console.log(user);
-                const newStudent = new models.Student(student.name, student.email, student.phone_number, undefined, undefined, student.career_id);
-                // console.log(newStudent);
-                const docRef = addDoc(collection(this.db, 'students'), newStudent.toObject());
-                return docRef;
-                // ...
-            }).catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log(errorCode);
-                console.log(errorMessage);
-                // ..
+            const userCredential = await createUserWithEmailAndPassword(this.auth, student.email, student.password);
+            const user = userCredential.user;
+            // console.log(user);
+            await updateProfile(user, {
+                displayName: student.name,
+                photoURL: undefined
             });
+            // console.log(user);
+            const newStudent = new models.Student(student.name, student.email, student.phone_number, student.info, student.rating, student.career_id);
+            // console.log(newStudent);
+            const docRef = addDoc(collection(this.db, 'students'), newStudent.toObject());
+            return docRef;
         } catch (error) {
             console.error('Error adding document:', error);
             throw error;
@@ -125,22 +162,190 @@ class StudentController {
         }
     }
 
-    // async signInStudent(email, password) {
-    //     console.log(email, password);
-    //     signInWithEmailAndPassword(this.auth, email, password).then((userCredential) => {
-    //         // Signed in
-    //         const user = userCredential.user;
-    //         // console.log(user);
-    //         return user;
-    //         // ...
-    //     }).catch((error) => {
-    //         const errorCode = error.code;
-    //         const errorMessage = error.message;
-    //         console.log(errorCode);
-    //         console.log(errorMessage);
-    //         // ..
-    //     });
-    // };
+    async addFriend(studentId, friendId) {
+        try {
+            const docRef = doc(this.db, 'students', studentId);
+            const friendsRef = await addDoc(collection(docRef, 'friends'), { friend_id: friendId });
+            return friendsRef;
+        } catch (error) {
+            console.error('Error updating document:', error);
+            throw error;
+        }
+    }
+
+    async getFriendsByStudentId(id) {
+        try {
+            const q = query(collection(this.db, 'students', id, 'friends'));
+            const querySnap = await getDocs(q);
+            const documentsPromises = querySnap.docs.map(async (document) => {
+                const friend_id = document.data().friend_id;
+                const docRef = doc(this.db, 'students', friend_id);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    // console.log(docSnap.data());
+                    const studentData = docSnap.data();
+                    const careerRef = doc(this.db, 'careers', studentData.career_id);
+
+                    const careerDocSnap = await getDoc(careerRef);
+                    if (careerDocSnap.exists()) {
+                        const careerData = careerDocSnap.data();
+                        return { ...studentData, career: careerData, id: docSnap.id };
+                    } else {
+                        console.log('No such document!');
+                        return null;
+                    }
+                } else {
+                    console.log('No such document!');
+                    return null;
+                }
+            });
+            const documents = await Promise.all(documentsPromises);
+
+            // console.log(documents);
+            return documents;
+        } catch (error) {
+            console.error('Error getting documents:', error);
+            throw error;
+        }
+    }
+
+    async deleteFriend(studentId, friendId) {
+        try {
+            console.log(studentId, friendId);
+            const friendsRef = collection(this.db, 'students', studentId, 'friends');
+            const q = query(friendsRef, where('friend_id', '==', friendId));
+            const querySnap = await getDocs(q);
+            const documentsId = [];
+            querySnap.forEach((doc) => {
+                documentsId.push(doc.id);
+            });
+            let friendDocId = documentsId[0];
+            const docRef = doc(this.db, 'students', studentId, 'friends', friendDocId);
+            await deleteDoc(docRef);
+            // await deleteDoc(docRef);
+            return true;
+        } catch (error) {
+            console.error('Error deleting document:', error);
+            throw error;
+        }
+    }
+
+
+    async createReview(student_id, review) {
+        const newReview = new models.Review(review.student_id, review.title, review.comment, review.rating, new Date());
+        // console.log(newReview);
+        try {
+            const docRef = doc(this.db, 'students', student_id);
+            const reviewsRef = await addDoc(collection(docRef, 'reviews'), newReview.toObject());
+            return reviewsRef;
+        } catch (error) {
+            console.error('Error adding document:', error);
+            throw error;
+        }
+    }
+
+    async getReviewsByStudentId(id) {
+        try {
+            const q = query(collection(this.db, 'students', id, 'reviews'));
+            const querySnap = await getDocs(q);
+            const documents = [];
+            querySnap.forEach((doc) => {
+                // console.log(doc.data);
+                documents.push(doc.data());
+            });
+            // console.log(documents);
+            return documents;
+        } catch (error) {
+            console.error('Error getting documents:', error);
+            throw error;
+        }
+    }
+
+    async calculateRating(id) {
+        try {
+            const q = query(collection(this.db, 'students', id, 'reviews'));
+            const querySnap = await getDocs(q);
+            const documents = [];
+            querySnap.forEach((doc) => {
+                // console.log(doc.data);
+                documents.push(doc.data());
+            });
+            // console.log(documents);
+            let rating = 0;
+            documents.forEach((review) => {
+                rating += review.rating;
+            });
+            rating /= documents.length;
+
+            const docRef = doc(this.db, 'students', id);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                const student = docSnap.data();
+                await setDoc(docRef, { ...student, rating: rating });
+            } else {
+                console.log('No such document!');
+                return null;
+            }
+
+            // console.log(rating);
+            return rating;
+        } catch (error) {
+            console.error('Error getting documents:', error);
+            throw error;
+        }
+    }
+
+    async searchStudents(searchQuery) {
+        // console.log(searchQuery.toString());
+        try {
+            const collectionRef = collection(this.db, 'students');
+            const q = query(collectionRef, where("name", ">=", searchQuery.toString()), where("name", "<", searchQuery.toString()));
+            const querySnap = await getDocs(q);
+            const documents = [];
+            querySnap.forEach((doc) => {
+                console.log("asdfasdf ", doc.data());
+                documents.push(doc.data());
+            });
+            // console.log(documents);
+            return documents;
+        } catch (error) {
+            console.error('Error getting documents:', error);
+            throw error;
+        }
+    }
+
+    async getSectionsByStudentId(id) {
+        try {
+            const q = query(collection(this.db, 'students', id, 'sections'));
+            const querySnap = await getDocs(q);
+            const documentsPromises = querySnap.docs.map(async (document) => {
+                const section_id = document.data().section_id;
+                const docRef = doc(this.db, 'sections', section_id);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    // console.log(docSnap.data());
+                    const sectionData = docSnap.data();
+                    const subjectRef = doc(this.db, 'subjects', sectionData.subject_id);
+                    const subjectDocSnap = await getDoc(subjectRef);
+                    if (subjectDocSnap.exists()) {
+                        const subjectData = subjectDocSnap.data();
+                        return { ...sectionData, subject: subjectData, id: docSnap.id };
+                    } else {
+                        console.log('No such document!');
+                        return null;
+                    }
+                } else {
+                    console.log('No such document!');
+                    return null;
+                }
+            });
+            const documents = await Promise.all(documentsPromises);
+            return documents;
+        } catch (error) {
+            console.error('Error getting documents:', error);
+            throw error;
+        }
+    }
 }
 
 class AdminController {
@@ -186,12 +391,46 @@ class AdminController {
             const docSnap = await getDocs(q);
             if (docSnap.docs[0]) {
                 const data = docSnap.docs[0].data();
-                return data;
+                return { ...data, id: docSnap.docs[0].id };
             } else {
                 console.log('No such document!');
             }
         } catch (error) {
             console.error('Error getting document:', error);
+        }
+    }
+}
+
+class ProfessorController {
+    constructor(database) {
+        this.db = database;
+    }
+
+    async getAllProfessors() {
+        try {
+            const collectionRef = collection(this.db, 'professors');
+            const querySnapshot = await getDocs(collectionRef);
+            const documents = [];
+            querySnapshot.forEach((doc) => {
+                console.log(doc.data);
+                documents.push(doc.data());
+            });
+            return documents;
+        } catch (error) {
+            console.error('Error getting documents:', error);
+            throw error;
+        }
+    }
+
+    async createProfessor(professor) {
+        // console.log(professor);
+        const newProfessor = new models.Professor(professor.name, professor.email);
+        try {
+            const docRef = await addDoc(collection(this.db, 'professors'), newProfessor.toObject());
+            return docRef;
+        } catch (error) {
+            console.error('Error adding document:', error);
+            throw error;
         }
     }
 }
@@ -233,10 +472,126 @@ class ReviewController {
         }
     }
 
-    async createReview(review) {
-        const newReview = new models.Review(review.student_id, review.title, review.comment, review.rating, undefined);
+    async createReview(id, review) {
+        console.log(review);
+        const newReview = new models.Review(review.student_id, review.title, review.comment, review.rating, new Date());
         try {
-            const docRef = await addDoc(collection(this.db, 'reviews'), newReview.toObject());
+            const docRef = doc(this.db, 'students', id);
+            const reviewsRef = await addDoc(collection(docRef, 'reviews'), newReview.toObject());
+            return reviewsRef;
+        } catch (error) {
+            console.error('Error adding document:', error);
+            throw error;
+        }
+    }
+}
+
+class CareerController {
+    constructor(database) {
+        this.db = database;
+    }
+
+    async getAllCareers() {
+        try {
+            const collectionRef = collection(this.db, 'careers');
+            const querySnapshot = await getDocs(collectionRef);
+            const documents = [];
+            querySnapshot.forEach((doc) => {
+                console.log(doc.data);
+                documents.push(doc.data());
+            });
+            return documents;
+        } catch (error) {
+            console.error('Error getting documents:', error);
+            throw error;
+        }
+    }
+
+    async getCareerById(id) {
+        try {
+            const docRef = doc(this.db, 'careers', id);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                return docSnap.data();
+            } else {
+                console.log('No such document!');
+                return null;
+            }
+        } catch (error) {
+            console.error('Error getting document:', error);
+            throw error;
+        }
+    }
+
+    async getCareerByName(name) {
+        try {
+            const q = query(collection(this.db, 'careers'), where('name', '==', name));
+            const querySnap = await getDocs(q);
+            if (querySnap.docs[0]) {
+                const data = querySnap.docs[0].data();
+                return data;
+            } else {
+                console.log('No such document!');
+                return null;
+            }
+        } catch (error) {
+            console.error('Error getting document:', error);
+            throw error;
+        }
+    }
+
+    async addCareer(career) {
+        const newCareer = new models.Career(career.name, career.faculty);
+        try {
+            const docRef = await addDoc(collection(this.db, 'careers'), newCareer.toObject());
+            return docRef;
+        } catch (error) {
+            console.error('Error adding document:', error);
+            throw error;
+        }
+    }
+
+    async updateCareer(id, career) {
+        const newCareer = new models.Career(career.name, career.faculty);
+        try {
+            const docRef = doc(this.db, 'careers', id);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                await setDoc(docRef, newCareer.toObject());
+                return true;
+            } else {
+                console.log('No such document!');
+                return false;
+            }
+        } catch (error) {
+            console.error('Error updating document:', error);
+            throw error;
+        }
+    }
+}
+
+class SectionController {
+    constructor(database) {
+        this.db = database;
+    }
+
+    async createSection(section) {
+        const newSection = new models.Section(section.subject_id, section.classroom_code, section.professor_id, section.number);
+        try {
+            const docRef = await addDoc(collection(this.db, 'sections'), newSection.toObject());
+            return docRef;
+        } catch (error) {
+            console.error('Error adding document:', error);
+            throw error;
+        }
+    }
+
+    async addStudent(section_id, student_id) {
+        try {
+            const sectionsRef = collection(this.db, 'sections', section_id, 'students');
+            const docRef = await addDoc(sectionsRef, { student_id: student_id });
+            const studentsRef = collection(this.db, 'students', student_id, 'sections');
+            await addDoc(studentsRef, { section_id: section_id });
             return docRef;
         } catch (error) {
             console.error('Error adding document:', error);
@@ -245,4 +600,30 @@ class ReviewController {
     }
 }
 
-module.exports = { UserController, StudentController, AdminController, ReviewController };
+class SubjectController {
+    constructor(database) {
+        this.db = database;
+    }
+
+    async createSubject(subject) {
+        const newSubject = new models.Subject(subject.name);
+        try {
+            const docRef = await addDoc(collection(this.db, 'subjects'), newSubject.toObject());
+            return docRef;
+        } catch (error) {
+            console.error('Error adding document:', error);
+            throw error;
+        }
+    }
+}
+
+module.exports = {
+    UserController,
+    StudentController,
+    AdminController,
+    ReviewController,
+    CareerController,
+    ProfessorController,
+    SubjectController,
+    SectionController
+};

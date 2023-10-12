@@ -1,8 +1,5 @@
 const router = require('express').Router();
-const controllers = require('../../firebase/dependency-injection');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
+const controllers = require('../firebase/dependency-injection');
 
 router.post('/login', async (req, res) => {
     /*#swagger.tags = ['Login']*/
@@ -15,13 +12,18 @@ router.post('/login', async (req, res) => {
     */
     const user = await controllers.UserController.signInUser(req.body.email, req.body.password);
     if (!user) return res.json({ message: "The email or password is incorrect" }).status(404);
-    else return res.json({
-        name: user.name,
-        email: user.email,
-        rating: user.rating,
-        career_id: user.career_id
-    }).status(200);
+    else return res.json(user).status(200);
     // if (!(student && admin)) return res.json({ message: "The email or password is incorrect" }).status(404);
 });
+router.patch('/change-password', async (req, res) => {
+    try {
+        const { email, oldPassword, newPassword } = req.body;
+        const user = await controllers.UserController.changePassword(email, oldPassword, newPassword);
+        res.json(user).status(200);
+    } catch (error) {
+        res.json(error).status(400);
+    }
+});
+
 
 module.exports = router;

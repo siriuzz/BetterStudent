@@ -10,8 +10,8 @@ import {
   Keyboard,
   Image
 } from "react-native";
-import COLORS from "../conts/colors";
-import TopButtons from "./TobButtons";
+import COLORS from "../constants/colors";
+import TopButtons from "./TopButtons";
 import Logo from "../../assets/Logo.png";
 import Input from "./Input";
 import Button from "./Button";
@@ -21,21 +21,21 @@ import Login from "../Screens/Login/Login"
 
 
 
-export default function ChangePasswordContent(props){
+export default function ChangePasswordContent(props) {
   const navigation = useNavigation(); // Usa useNavigation para acceder a la navegación
 
   const [userDetails, setUserDetails] = React.useState({});
-    React.useEffect(() => {
-        getUserDetails();
-    }, []);
+  React.useEffect(() => {
+    getUserDetails();
+  }, []);
 
-    const getUserDetails = async() => {
-        const userData = await AsyncStorage.getItem('user');
-        if(userData) {
-            setUserDetails(JSON.parse(userData));
-        }
-    };
-    
+  const getUserDetails = async () => {
+    const userData = await AsyncStorage.getItem('user');
+    if (userData) {
+      setUserDetails(JSON.parse(userData));
+    }
+  };
+
 
   const [inputs, setInputs] = React.useState({
     oldPassword: "",
@@ -54,7 +54,7 @@ export default function ChangePasswordContent(props){
       handleError("Se requiere una nueva contraseña", "password");
       handleError("Se requiere confirmar la nueva contraseña", "passwordConfirm");
       valid = false;
-    } else if (inputs.oldPassword !== userDetails.password){
+    } else if (inputs.oldPassword !== userDetails.password) {
       handleError("La contraseña no coincide", "oldPassword");
       valid = false;
     } else if (inputs.password.length < 5) {
@@ -97,34 +97,34 @@ export default function ChangePasswordContent(props){
     setErrors((prevState) => ({ ...prevState, [input]: errorMessage }));
   };
 
-  const logout = async() => {
-    AsyncStorage.setItem('user', JSON.stringify({...userDetails, loggedIn: false}),);
+  const logout = async () => {
+    AsyncStorage.setItem('user', JSON.stringify({ ...userDetails, loggedIn: false }),);
     navigation.navigate('Login');
   };
-  
-  return(
-    <SafeAreaView 
+
+  return (
+    <SafeAreaView
       style={{
-        flex:1,
-        alignItems:'center',
+        flex: 1,
+        alignItems: 'center',
         backgroundColor: COLORS.white,
       }}>
       <Loader visible={loading} />
-      
+
       <ScrollView
         contentContainerStyle={{
           paddingTop: 100,
           paddingHorizontal: 20,
         }}>
 
-        <Image 
-            source={Logo}
-            style={{
+        <Image
+          source={Logo}
+          style={{
             height: 200,
             width: 150,
             resizeMode: 'cover',
             alignSelf: 'center',
-            }}
+          }}
         />
         <Text style={{ color: COLORS.black, fontSize: 40, fontWeight: "bold", alignSelf: 'center', marginTop: 10 }}>
           Cambiar contraseña
@@ -134,7 +134,7 @@ export default function ChangePasswordContent(props){
         </Text>
 
         <View style={{ marginVertical: 20 }}>
-          { props.loggedIn === true ? (
+          {props.loggedIn === true ? (
             <Input
               placeholder="Ingresa tu contraseña actual"
               iconName="lock-outline"
@@ -147,7 +147,7 @@ export default function ChangePasswordContent(props){
               onChangeText={(text) => handleOnChange(text, "oldPassword")}
               password
             />
-          ):(
+          ) : (
             null
           )}
           <Input
@@ -177,9 +177,9 @@ export default function ChangePasswordContent(props){
           <Button title="Continuar" onPress={validate} />
         </View>
       </ScrollView>
-      <TopButtons 
-      enableGoBack={true}
-      enableTopRightIcons={false}
+      <TopButtons
+        enableGoBack={true}
+        enableTopRightIcons={false}
       />
     </SafeAreaView>
   )

@@ -2,37 +2,32 @@ import React from "react";
 import { View, Text, StyleSheet, TextInput, Image, TouchableOpacity } from "react-native";
 import { useState } from "react";
 import COLORS from "../constants/colors";
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';;
+import Logo from "../../assets/Logo.png";
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import FriendProfile from "../Screens/FriendProfile/FriendProfile";
+import { useNavigation } from "@react-navigation/native";
+import FollowButton from "./FollowButton";
 
-export default function FriendListItem({ image, name, major, rating }) {
-    const [isFollowing, setIsFollowing] = useState(false);
+export default function FriendListItem({ friend_id, image, name, major }) {
+    const navigation = useNavigation();
 
-    const handleFollowToggle = () => {
-        // Toggle the following state
-        setIsFollowing(!isFollowing);
-
-        // You can also send a request to your backend to update the follow status here
-    };
     return (
-        <View style={style.container}>
+        <View >
+            <TouchableOpacity style={style.container} onPress={() => { navigation.navigate("FriendProfile", { "friend_id": friend_id }) }}>
 
-            <View style={style.imageContainer}>
-                <Image source={image} style={style.image} />
-            </View>
-            <View style={style.infoContainer}>
-                <Text style={style.name}>{name}</Text>
-                <Text style={style.major}>Carrera: {major}</Text>
-            </View>
-            {/* <View style={style.ratingContainer}>
+                <View style={style.imageContainer}>
+                    <Image source={Logo} style={style.image} />
+                </View>
+                <View style={style.infoContainer}>
+                    <Text style={style.name}>{name}</Text>
+                    <Text style={style.major}>{major}</Text>
+                </View>
+                {/* <View style={style.ratingContainer}>
                 <Text style={style.rating}>{rating}</Text>
             </View> */}
-            <TouchableOpacity
-                style={[style.followButton, isFollowing ? style.followingButton : null]}
-                onPress={handleFollowToggle}
-            >
-                <Text style={style.buttonText}>
-                    {isFollowing ? 'Following' : 'Follow'}
-                </Text>
+                <FollowButton friend_id={friend_id} />
             </TouchableOpacity>
         </View>
     );
@@ -40,18 +35,19 @@ export default function FriendListItem({ image, name, major, rating }) {
 
 const style = StyleSheet.create({
     container: {
-        width: '100%',
+        width: '97%',
         height: 80,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-around',
+        elevation: 2,
         backgroundColor: COLORS.white,
         borderRadius: 10,
         marginBottom: 10,
     },
     imageContainer: {
-        width: 60,
-        height: 60,
+        width: 50,
+        height: 50,
         borderRadius: 30,
         backgroundColor: COLORS.light,
         alignItems: 'center',
@@ -64,9 +60,9 @@ const style = StyleSheet.create({
     },
     infoContainer: {
         height: '100%',
-        paddingRight: 50,
         justifyContent: 'center',
         alignContent: 'left',
+        width: 150
     },
     name: {
         fontSize: 16,
@@ -74,8 +70,9 @@ const style = StyleSheet.create({
         color: COLORS.darkBlue,
     },
     major: {
-        fontSize: 14,
+        fontSize: 12,
         fontWeight: 'bold',
+        width: 100,
         color: COLORS.darkBlue,
     },
     ratingContainer: {

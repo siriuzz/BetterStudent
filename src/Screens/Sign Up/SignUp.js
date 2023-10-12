@@ -14,7 +14,7 @@ import Logo from "../../../assets/Logo.png";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
 import Loader from "../../components/Loader";
-import COLORS from "../../conts/colors";
+import COLORS from "../../constants/colors";
 import axios from "axios";
 
 const SignUp = ({ navigation }) => {
@@ -128,7 +128,7 @@ const SignUp = ({ navigation }) => {
             marginBottom: 10,
           }}
         >
-          Registrate
+          Regístrate
         </Text>
         <View style={{ marginVertical: 10, marginTop: 1 }}>
           <Input

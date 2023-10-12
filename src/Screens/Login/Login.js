@@ -1,5 +1,7 @@
+/* eslint-disable prettier/prettier */
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React from "react";
+import axios from "axios";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -10,12 +12,14 @@ import {
   Image,
 } from "react-native";
 
+import Logo from "../../../assets/Logo.png";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
 import Loader from "../../components/Loader";
 import COLORS from "../../constants/colors";
-import Logo from "../../../assets/Logo.png";
-import axios from "axios";
+
+
+// import NavigationActions from "@react-navigation";
 
 const Login = ({ navigation }) => {
   const [inputs, setInputs] = React.useState({
@@ -24,6 +28,7 @@ const Login = ({ navigation }) => {
   });
   const [errors, setErrors] = React.useState({});
   const [loading, setLoading] = React.useState(false);
+
   const validate = () => {
     Keyboard.dismiss();
     let valid = true;
@@ -51,7 +56,7 @@ const Login = ({ navigation }) => {
       email: inputs.email,
       password: inputs.password,
     }).then((response) => {
-      console.log(response);
+      // console.log(response);
       if (response.data.email !== undefined) {
         // console.log(response.data);
         AsyncStorage.setItem(
@@ -97,8 +102,25 @@ const Login = ({ navigation }) => {
     setErrors((prevState) => ({ ...prevState, [input]: errorMessage }));
   };
 
+  useEffect(() => {
+    // const user = AsyncStorage.getItem('user');
+    // console.log(user.name);
+    // const preventGoingBack = () => {
+    //   if (user.name != undefined) {
+    //     console.log("hey ", user);
+    //     const resetAction = navigation.reset({
+    //       index: 0,
+    //       routes: [{ name: 'Home' }], // Replace 'Home' with the name of your desired screen.
+    //     });
+    //     navigation.dispatch(resetAction);
+    //   }
+    // }
+    // preventGoingBack();
+  })
+
   return (
-    <SafeAreaView style={{ backgroundColor: COLORS.white, flex: 1 }}>
+    <SafeAreaView // Cambiar el color de fondo
+      style={{ backgroundColor: COLORS.white, flex: 1 }}>
       <Loader visible={loading} />
       <ScrollView
         contentContainerStyle={{
@@ -152,7 +174,7 @@ const Login = ({ navigation }) => {
               fontWeight: "bold",
             }}
           >
-            ¿No tienes una cuenta? <Text style={{ color: COLORS.darkYellow }}>Registrate</Text>
+            ¿No tienes una cuenta? <Text style={{ color: COLORS.darkYellow }}>Regístrate</Text>
           </Text>
         </View>
       </ScrollView>
