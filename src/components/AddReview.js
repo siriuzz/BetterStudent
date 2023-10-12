@@ -65,7 +65,7 @@ const style = StyleSheet.create({
         backgroundColor: COLORS.navyBlue,
         paddingVertical: 8,
         paddingHorizontal: 16,
-        borderRadius: 8,
+        borderRadius: 9,
     },
     buttonText: {
         color: COLORS.white,
