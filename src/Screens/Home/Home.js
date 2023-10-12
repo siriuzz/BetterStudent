@@ -40,7 +40,7 @@ const Home = ({ navigation }) => {
 
     }, []);
 
-    const getUserDetails = async () => {
+    const getUserDetails = async () => { // Obtiene los datos del usuario guardados en el AsyncStorage
         const userData = await AsyncStorage.getItem('user');
         // console.log("este es el user ", userData);
         if (userData) {
@@ -162,7 +162,6 @@ const Home = ({ navigation }) => {
                 {/*<Button title="Logout" onPress={() => {navigation.navigate('LeaderBoard')}}/>*/}
 
             </ScrollView>
-
         </SafeAreaView>
     );
 };
