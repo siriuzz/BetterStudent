@@ -48,7 +48,7 @@ const Home = ({ navigation }) => {
         }
     };
 
-    const logout = async () => {
+    const logout = async () => { // Elimina los datos del usuario guardados en el AsyncStorage
         AsyncStorage.setItem(
             'user',
             JSON.stringify({ ...userDetails, loggedIn: false }),
