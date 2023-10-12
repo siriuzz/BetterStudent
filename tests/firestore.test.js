@@ -8,7 +8,6 @@ const testDocument = {
     title: "Ada",
     postDate: null
 };
-const testId = "Prueba";
 
 // test('should write and read data from Firestore', async () => {
 //     // leer el documento de prueba
@@ -27,16 +26,16 @@ const testId = "Prueba";
 // });
 
 describe('Firestore Tests', () => {
+    let docRef;
     beforeAll(async () => {
         // agregar documento de prueba
-        const docRef = doc(db, testCollection, testId);
-        await setDoc(docRef, testDocument);
+        const collectionRef = collection(db, testCollection);
+        docRef = await addDoc(collectionRef, testDocument);
+        console.log(docRef);
     });
 
-    it('should write and read data from Firestore', async () => {
+    it('should read data from Firestore', async () => {
         // leer el documento de prueba
-        const collectionRef = collection(db, testCollection);
-        const docRef = await addDoc(collectionRef, testDocument);
         const docSnapshot = await getDoc(docRef);
 
         //verificar que la data existe
@@ -49,17 +48,8 @@ describe('Firestore Tests', () => {
         expect(data.postDate).toBe(testDocument.postDate);
     });
 
-
-
     afterAll(async () => {
         // borrar el documento de prueba
-        const docRef = doc(db, testCollection, testId);
-        // console.log(docRef.id);
         await deleteDoc(docRef);
-        return;
-        // resolve();
-
-
     });
-
 });
