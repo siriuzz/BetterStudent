@@ -66,7 +66,7 @@ const Home = ({ navigation }) => {
             }}>
 
             {/*Color en Avatar... Yo(estudiante)=COLORS.yellow, Yo(admin)=COLORS.lightBlue, otraPersona=COLORS.darkYellow*/}
-            <Avatar
+            <Avatar // Avatar del usuario
                 enableEdit={true}
                 color={COLORS.yellow} />
             <TopButtons
