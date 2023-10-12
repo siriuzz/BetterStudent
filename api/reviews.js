@@ -77,7 +77,7 @@ router.get('/Students/:id/Reviews', async (req, res) => {
     // reviews.forEach(async (review) => {
     //     await controllers.StudentController.createReview(review.student_id, review);
     // });
-    // await controllers.ReviewController.createReview(req.params.id, req.body);
+    await controllers.ReviewController.createReview(req.params.id, req.body);
     res.json({ message: "The review has been created" }).status(200);
 });
 

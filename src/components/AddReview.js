@@ -54,7 +54,7 @@ export default function AddReviewButton({ friend_id }) {
                     Agregar reseña
                 </Text>
 
-                <AddReviewModal isVisible={modalStatus} onClose={closeModal} />
+                <AddReviewModal isVisible={modalStatus} onClose={closeModal} friend_id={friend_id} />
             </TouchableOpacity>
         </KeyboardAvoidingView>
     );

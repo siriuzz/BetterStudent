@@ -1,5 +1,5 @@
-const db = require('../firebase/firestore');
-const { getFirestore, collection, addDoc, doc, getDoc, deleteDoc, setDoc } = require('firebase/firestore');
+const { db } = require('../firebase/firestore');
+const { collection, addDoc, doc, getDoc, deleteDoc, setDoc } = require('firebase/firestore');
 require('dotenv').config();
 
 // Define a collection and document for testing
@@ -29,21 +29,14 @@ const testId = "Prueba";
 describe('Firestore Tests', () => {
     beforeAll(async () => {
         // agregar documento de prueba
-        await setDoc(doc(db, testCollection, testId), testDocument);
-    });
-
-    afterAll(async () => {
-        // borrar el documento de prueba
         const docRef = doc(db, testCollection, testId);
-        await deleteDoc(docRef);
-        // resolve();
-
-
+        await setDoc(docRef, testDocument);
     });
 
     it('should write and read data from Firestore', async () => {
         // leer el documento de prueba
-        const docRef = await addDoc(collection(db, testCollection), testDocument);
+        const collectionRef = collection(db, testCollection);
+        const docRef = await addDoc(collectionRef, testDocument);
         const docSnapshot = await getDoc(docRef);
 
         //verificar que la data existe
@@ -57,5 +50,16 @@ describe('Firestore Tests', () => {
     });
 
 
+
+    afterAll(async () => {
+        // borrar el documento de prueba
+        const docRef = doc(db, testCollection, testId);
+        // console.log(docRef.id);
+        await deleteDoc(docRef);
+        return;
+        // resolve();
+
+
+    });
 
 });

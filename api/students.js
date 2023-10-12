@@ -74,6 +74,12 @@ router.get('/Students/:id', async (req, res) => {
     res.json({ message: "The student has been deleted" }).status(200);
 });
 
+router.get('/Students/Search/:query', async (req, res) => {
+    /*#swagger.tags = ['Students']*/
+    const students = await controllers.StudentController.searchStudents(req.params.query);
+    res.json(students).status(200);
+});
+
 router.patch('/Students/:id/calculate-rating', async (req, res) => {
     /*#swagger.tags = ['Students']*/
     /*#swagger.params['id'] = {
@@ -84,6 +90,12 @@ router.patch('/Students/:id/calculate-rating', async (req, res) => {
     }*/
     const student = await controllers.StudentController.calculateRating(req.params.id);
     res.json(student).status(200);
+});
+
+router.get('/Students/:id/Sections', async (req, res) => {
+    /*#swagger.tags = ['Students']*/
+    const sections = await controllers.StudentController.getSectionsByStudentId(req.params.id);
+    res.json(sections).status(200);
 });
 
 module.exports = router;

@@ -48,12 +48,13 @@ const Sbar = () => {
 
   const handleSearch = (query) => {
     setSearchQuery(query);
-
-    if (query) {
-      setSearchResults(searchDummyData(query));
-    } else {
-      setSearchResults([]);
-    }
+    const result = axios.get(`${process.env.EXPO_PUBLIC_EXPRESS_FORWARDED_URL}/api/Students/Search/${query}/`);
+    console.log(result.data);
+    // if (query) {
+    //   setSearchResults(searchDummyData(query));
+    // } else {
+    //   setSearchResults([]);
+    // }
   };
 
   const handleSearchIconPress = () => {
@@ -66,7 +67,7 @@ const Sbar = () => {
     });
   };
 
-  const searchDummyData = (query) => {
+  const searchData = (query) => {
     // Simulated data with type "result"
     return [
       { type: "result", name: `Result 1 for "${query}"` },

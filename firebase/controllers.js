@@ -1,4 +1,4 @@
-const { collection, addDoc, doc, getDoc, deleteDoc, setDoc, getDocs, query, where } = require('firebase/firestore');
+const { collection, addDoc, doc, getDoc, deleteDoc, setDoc, getDocs, query, where, orderBy, startAt, endAt } = require('firebase/firestore');
 const models = require('./models');
 const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, updatePassword } = require('firebase/auth');
 const { getStorage, ref, uploadString, getDownloadURL } = require('firebase/storage');
@@ -294,6 +294,58 @@ class StudentController {
             throw error;
         }
     }
+
+    async searchStudents(searchQuery) {
+        // console.log(searchQuery.toString());
+        try {
+            const collectionRef = collection(this.db, 'students');
+            const q = query(collectionRef, where("name", ">=", searchQuery.toString()), where("name", "<", searchQuery.toString()));
+            const querySnap = await getDocs(q);
+            const documents = [];
+            querySnap.forEach((doc) => {
+                console.log("asdfasdf ", doc.data());
+                documents.push(doc.data());
+            });
+            // console.log(documents);
+            return documents;
+        } catch (error) {
+            console.error('Error getting documents:', error);
+            throw error;
+        }
+    }
+
+    async getSectionsByStudentId(id) {
+        try {
+            const q = query(collection(this.db, 'students', id, 'sections'));
+            const querySnap = await getDocs(q);
+            const documentsPromises = querySnap.docs.map(async (document) => {
+                const section_id = document.data().section_id;
+                const docRef = doc(this.db, 'sections', section_id);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    // console.log(docSnap.data());
+                    const sectionData = docSnap.data();
+                    const subjectRef = doc(this.db, 'subjects', sectionData.subject_id);
+                    const subjectDocSnap = await getDoc(subjectRef);
+                    if (subjectDocSnap.exists()) {
+                        const subjectData = subjectDocSnap.data();
+                        return { ...sectionData, subject: subjectData, id: docSnap.id };
+                    } else {
+                        console.log('No such document!');
+                        return null;
+                    }
+                } else {
+                    console.log('No such document!');
+                    return null;
+                }
+            });
+            const documents = await Promise.all(documentsPromises);
+            return documents;
+        } catch (error) {
+            console.error('Error getting documents:', error);
+            throw error;
+        }
+    }
 }
 
 class AdminController {
@@ -349,6 +401,40 @@ class AdminController {
     }
 }
 
+class ProfessorController {
+    constructor(database) {
+        this.db = database;
+    }
+
+    async getAllProfessors() {
+        try {
+            const collectionRef = collection(this.db, 'professors');
+            const querySnapshot = await getDocs(collectionRef);
+            const documents = [];
+            querySnapshot.forEach((doc) => {
+                console.log(doc.data);
+                documents.push(doc.data());
+            });
+            return documents;
+        } catch (error) {
+            console.error('Error getting documents:', error);
+            throw error;
+        }
+    }
+
+    async createProfessor(professor) {
+        // console.log(professor);
+        const newProfessor = new models.Professor(professor.name, professor.email);
+        try {
+            const docRef = await addDoc(collection(this.db, 'professors'), newProfessor.toObject());
+            return docRef;
+        } catch (error) {
+            console.error('Error adding document:', error);
+            throw error;
+        }
+    }
+}
+
 class ReviewController {
     constructor(database) {
         this.db = database;
@@ -386,7 +472,18 @@ class ReviewController {
         }
     }
 
-
+    async createReview(id, review) {
+        console.log(review);
+        const newReview = new models.Review(review.student_id, review.title, review.comment, review.rating, new Date());
+        try {
+            const docRef = doc(this.db, 'students', id);
+            const reviewsRef = await addDoc(collection(docRef, 'reviews'), newReview.toObject());
+            return reviewsRef;
+        } catch (error) {
+            console.error('Error adding document:', error);
+            throw error;
+        }
+    }
 }
 
 class CareerController {
@@ -473,12 +570,60 @@ class CareerController {
     }
 }
 
+class SectionController {
+    constructor(database) {
+        this.db = database;
+    }
 
+    async createSection(section) {
+        const newSection = new models.Section(section.subject_id, section.classroom_code, section.professor_id, section.number);
+        try {
+            const docRef = await addDoc(collection(this.db, 'sections'), newSection.toObject());
+            return docRef;
+        } catch (error) {
+            console.error('Error adding document:', error);
+            throw error;
+        }
+    }
+
+    async addStudent(section_id, student_id) {
+        try {
+            const sectionsRef = collection(this.db, 'sections', section_id, 'students');
+            const docRef = await addDoc(sectionsRef, { student_id: student_id });
+            const studentsRef = collection(this.db, 'students', student_id, 'sections');
+            await addDoc(studentsRef, { section_id: section_id });
+            return docRef;
+        } catch (error) {
+            console.error('Error adding document:', error);
+            throw error;
+        }
+    }
+}
+
+class SubjectController {
+    constructor(database) {
+        this.db = database;
+    }
+
+    async createSubject(subject) {
+        const newSubject = new models.Subject(subject.name);
+        try {
+            const docRef = await addDoc(collection(this.db, 'subjects'), newSubject.toObject());
+            return docRef;
+        } catch (error) {
+            console.error('Error adding document:', error);
+            throw error;
+        }
+    }
+}
 
 module.exports = {
     UserController,
     StudentController,
     AdminController,
     ReviewController,
-    CareerController
+    CareerController,
+    ProfessorController,
+    SubjectController,
+    SectionController
 };

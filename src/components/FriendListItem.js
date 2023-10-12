@@ -62,6 +62,7 @@ const style = StyleSheet.create({
         height: '100%',
         justifyContent: 'center',
         alignContent: 'left',
+        width: 150
     },
     name: {
         fontSize: 16,

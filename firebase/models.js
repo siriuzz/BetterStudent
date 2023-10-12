@@ -76,12 +76,20 @@ class Review {
 }
 
 class Section {
-    constructor(subject_id, schedule_id, classroom_code, professor_id, number) {
+    constructor(subject_id, classroom_code, professor_id, number) {
         this.subject_id = subject_id;
-        this.schedule_id = schedule_id;
         this.classroom_code = classroom_code;
         this.professor_id = professor_id;
         this.number = number;
+    }
+
+    toObject() {
+        return {
+            subject_id: this.subject_id,
+            classroom_code: this.classroom_code,
+            professor_id: this.professor_id,
+            number: this.number,
+        };
     }
 }
 
@@ -103,21 +111,25 @@ class Subject {
     constructor(name) {
         this.name = name;
     }
-}
-
-class Schedule {
-    constructor(start_hour, end_hour, day) {
-        this.start_hour = start_hour;
-        this.end_hour = end_hour;
-        this.day = day;
+    toObject() {
+        return {
+            name: this.name,
+        };
     }
 }
 
 class Professor {
-    constructor(name, email, phone_number) {
+    constructor(name, email) {
         this.name = name;
         this.email = email;
     }
+
+    toObject() {
+        return {
+            name: this.name,
+            email: this.email
+        };
+    }
 }
 
-module.exports = { Student, Admin, Career, Review, Section, Friend, Subject, Schedule, Professor };
+module.exports = { Student, Admin, Career, Review, Section, Friend, Subject, Professor };
