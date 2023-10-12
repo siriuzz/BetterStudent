@@ -81,15 +81,7 @@ const Home = ({ navigation }) => {
             <StarRating
                 stars={Math.floor(userDetails.rating)}
             />
-            <ScrollView
-                contentContainerStyle={{
-                    alignItems: 'flex-start',
-                }}
-                style={{
-                    paddingHorizontal: 20,
-                    width: '100%',
-                }}
-            >
+            
                 <Info
                     text={userDetails.info} />
                 <Text style={{ fontSize: 22, fontWeight: 'bold', alignSelf: 'flex-start' }}>Reviews</Text>
