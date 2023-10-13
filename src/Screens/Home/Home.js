@@ -108,9 +108,7 @@ const Home = ({ navigation }) => {
                                     fontStyle: 'italic',
                                     fontSize: 20,
                                 }}>{review.title}</Text> <StarRating stars={review.rating} /> 
-
                                 <Text>{"\n" + review.comment}</Text>
-
                             </Text>
                         </View>
                     )
